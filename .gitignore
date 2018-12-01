@@ -1,0 +1,11 @@
+
+#Eclipse
+bin
+.project
+
+# Java
+server/.*
+server/target
+
+# Angular
+node_modules

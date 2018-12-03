@@ -1,7 +1,6 @@
 
-#Eclipse
-bin
-.project
+# IntelliJ
+.*
 
 # Java
 server/.*

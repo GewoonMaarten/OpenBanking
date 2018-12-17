@@ -1,15 +1,14 @@
 library(tidyverse)
 library(janitor)
 
-data_RABO_1 = read_csv2("data/bank_account_transactions_RABO_1.csv")
+data_RABO_1 = read_csv("data/bank_account_transactions_RABO_1.csv")
 data_RABO_2 = read_csv("data/bank_account_transactions_RABO_2.csv")
 data_RABO_3 = read_csv("data/bank_account_transactions_RABO_3.csv")
-data_INGB_1 = read_csv2("data/bank_account_transactions_INGB_1.csv")
+data_INGB_1 = read_csv("data/bank_account_transactions_INGB_1.csv")
 
-View(data_INGB_1)
 
 parse_RABO <- function(dataset) {
-  
+
   dataset <- clean_names(dataset, case = "snake")
   
   dataset %>%
@@ -22,7 +21,8 @@ parse_RABO <- function(dataset) {
       ,categorie = categorie %>%
         trimws() %>%
         tolower() %>%
-        replace(categorie %in% c("uitgaven", "overige", "ovee"), "overige uitgaven")
+        replace(categorie %in% c("uitgaven", "overige", "ovee"), "overige uitgaven") %>%
+        as_factor()
       ,naam = parse_character(naam_tegenpartij)
     ) %>%
     select(
@@ -50,7 +50,9 @@ parse_INGB <- function(dataset) {
         trimws() %>%
         tolower() %>%
         replace(categorie %in% c("uitgaven", "overige", "ovee"), "overige uitgaven") %>%
-        replace(categorie %in% c("medisch"), "medische kosten")
+        replace(categorie %in% c("medisch"), "medische kosten") %>%
+        replace(categorie == "uitgaven", "overige uitgaven") %>%
+        as_factor()
       ,naam = parse_character(kolom2)
     ) %>%
     select(
@@ -70,6 +72,9 @@ data_RABO_2_clean <- parse_RABO(data_RABO_2)
 data_RABO_3_clean <- parse_RABO(data_RABO_3)
 data_INGB_1_clean <- parse_INGB(data_INGB_1)
 
+
+table(data_RABO_1_clean$categorie)
+
 write_csv(data_RABO_1_clean, "data/bank_account_transactions_RABO_1_clean.csv")
 write_csv(data_RABO_2_clean, "data/bank_account_transactions_RABO_2_clean.csv")
 write_csv(data_RABO_3_clean, "data/bank_account_transactions_RABO_3_clean.csv")
@@ -88,6 +93,8 @@ master <- rbind(
     ,data_INGB_1_clean
   ) %>%
   drop_na()
+
+
 
 write_csv(master, "data/transactions_master.csv")
 write_rds(master, "data/transactions_master.rds")

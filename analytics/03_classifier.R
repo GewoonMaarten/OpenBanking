@@ -6,7 +6,7 @@ library(stringr)
 
 localH2O = h2o.init()
 
-data <- read_rds("data/master-clean.rds")
+data <- read_rds("data/transactions_master.rds")
 skim(data)
 
 data_hex = as.h2o(data, destination_frame = "data_hex")
@@ -26,7 +26,7 @@ tokenize <- function(words) {
 }
 
 
-words <- tokenize(data_hex$naam_tegenpartij)
+words <- tokenize(data_hex$naam)
 words
 w2v_model <- h2o.word2vec(
   words,
@@ -58,13 +58,32 @@ glm_model <- h2o.glm(
 
 h2o.confusionMatrix(glm_model)
 
+gbm_params1 <- list(learn_rate = c(0.01, 0.1),
+                    max_depth = c(3, 5, 9),
+                    sample_rate = c(0.8, 1.0),
+                    col_sample_rate = c(0.2, 0.5, 1.0))
+
+gbm_grid1 <- h2o.grid("gbm", y = "categorie",
+                      grid_id = "gbm_grid1",
+                      training_frame = data_hex_new_split[[1]],
+                      validation_frame = data_hex_new_split[[2]],
+                      ntrees = 100,
+                      seed = 1,
+                      hyper_params = gbm_params1)
+
+# Get the grid results, sorted by validation AUC
+gbm_gridperf1 <- h2o.getGrid(grid_id = "gbm_grid1",
+                             sort_by = "accuracy",
+                             decreasing = TRUE)
+print(gbm_gridperf1)
+
 gbm_model <- h2o.gbm(
   y = "categorie",
   training_frame = data_hex_new_split[[1]],
   validation_frame = data_hex_new_split[[2]]  
 )
 
-head(as.data.frame(data_hex_new_split[[2]])$naam_tegenpartij)
+head(as.data.frame(data_hex_new_split[[2]])$naam)
 
 h2o.predict(gbm_model, data_hex_new_split[[2]])
 

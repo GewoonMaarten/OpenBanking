@@ -1,0 +1,7 @@
+.container {
+  height: 100%;
+  display: grid;
+}
+.center {
+  margin: auto;
+}

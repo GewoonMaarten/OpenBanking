@@ -27,7 +27,7 @@ data_new <- data_new %>%
   ) %>%
   drop_na()
 
-skim(data_new)
+View(data_new)
 
 write_rds(data_new, "data/telecom/telecom_clean.rds")
 

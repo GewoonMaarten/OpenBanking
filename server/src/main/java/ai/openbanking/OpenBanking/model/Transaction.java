@@ -23,6 +23,23 @@ public class Transaction {
         this.dag = dag;
         this.maand = maand;
     }
+//
+//    public Transaction(String naam, Double bedrag, Integer dag, Integer maand, Integer is_vaste_last) {
+//        this.naam = naam;
+//        this.bedrag = bedrag;
+//        this.dag = dag;
+//        this.maand = maand;
+//        this.is_vaste_last = is_vaste_last;
+//    }
+//
+//    public Transaction(String naam, Double bedrag, Integer dag, Integer maand, Integer is_vaste_last, String categorie) {
+//        this.naam = naam;
+//        this.bedrag = bedrag;
+//        this.dag = dag;
+//        this.maand = maand;
+//        this.is_vaste_last = is_vaste_last;
+//        this.categorie = categorie;
+//    }
 
     public String getNaam() {
         return naam;

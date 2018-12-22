@@ -51,7 +51,7 @@ public class H2OPredictor {
     }
 
     public Transaction predictWordEmbedding(Transaction transaction) {
-        models.keySet().iterator().forEachRemaining(System.out::println);
+;
         try {
             EasyPredictModelWrapper model = models.get("WordEmbedding");
 

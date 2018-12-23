@@ -1,92 +1,82 @@
 package ai.openbanking.OpenBanking.model;
 
 import hex.genmodel.easy.RowData;
-
+import javax.persistence.*;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.Optional;
 
+
+@Entity(name = "transactions")
 public class Transaction {
 
-    private String naam;
-    private Double bedrag;
-    private Integer dag;
-    private Integer maand;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
-    private Integer is_vaste_last;
-    private String categorie;
+    private Double amount;
+    private String name;
+    private Date date;
+
+    @ManyToOne
+    private IsRecurringPrediction isRecurringPrediction;
+    @ManyToOne
+    private CategoryPrediction categoryPrediction;
 
     private HashMap<String, Float> wordEmbedding;
 
-    public Transaction(String naam, Double bedrag, Integer dag, Integer maand) {
-        this.naam = naam;
-        this.bedrag = bedrag;
-        this.dag = dag;
-        this.maand = maand;
-    }
-//
-//    public Transaction(String naam, Double bedrag, Integer dag, Integer maand, Integer is_vaste_last) {
-//        this.naam = naam;
-//        this.bedrag = bedrag;
-//        this.dag = dag;
-//        this.maand = maand;
-//        this.is_vaste_last = is_vaste_last;
-//    }
-//
-//    public Transaction(String naam, Double bedrag, Integer dag, Integer maand, Integer is_vaste_last, String categorie) {
-//        this.naam = naam;
-//        this.bedrag = bedrag;
-//        this.dag = dag;
-//        this.maand = maand;
-//        this.is_vaste_last = is_vaste_last;
-//        this.categorie = categorie;
-//    }
-
-    public String getNaam() {
-        return naam;
+    public Transaction(Double amount, String name, Date date) {
+        this.amount = amount;
+        this.name = name;
+        this.date = date;
     }
 
-    public void setNaam(String naam) {
-        this.naam = naam;
+    public Integer getId() {
+        return id;
     }
 
-    public Double getBedrag() {
-        return bedrag;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setBedrag(Double bedrag) {
-        this.bedrag = bedrag;
+    public Double getAmount() {
+        return amount;
     }
 
-    public Integer getDag() {
-        return dag;
+    public void setAmount(Double amount) {
+        this.amount = amount;
     }
 
-    public void setDag(Integer dag) {
-        this.dag = dag;
+    public String getName() {
+        return name;
     }
 
-    public Integer getMaand() {
-        return maand;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setMaand(Integer maand) {
-        this.maand = maand;
+    public Date getDate() {
+        return date;
     }
 
-    public Integer getIs_vaste_last() {
-        return is_vaste_last;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public void setIs_vaste_last(Integer is_vaste_last) {
-        this.is_vaste_last = is_vaste_last;
+    public IsRecurringPrediction getIsRecurringPrediction() {
+        return isRecurringPrediction;
     }
 
-    public String getCategorie() {
-        return categorie;
+    public void setIsRecurringPrediction(IsRecurringPrediction isRecurringPrediction) {
+        this.isRecurringPrediction = isRecurringPrediction;
     }
 
-    public void setCategorie(String categorie) {
-        this.categorie = categorie;
+    public CategoryPrediction getCategoryPrediction() {
+        return categoryPrediction;
+    }
+
+    public void setCategoryPrediction(CategoryPrediction categoryPrediction) {
+        this.categoryPrediction = categoryPrediction;
     }
 
     public HashMap<String, Float> getWordEmbedding() {
@@ -98,18 +88,25 @@ public class Transaction {
     }
 
     public RowData toRowData(){
-        RowData row = new RowData();
-        row.put("naam", naam);
-        row.put("bedrag", bedrag);
-        row.put("dag", dag.toString());
-        row.put("maand", maand.toString());
 
-        if (is_vaste_last != null) {
-            row.put("is_vaste_last", is_vaste_last);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+
+        String day  = String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
+        String month = String.valueOf(cal.get(Calendar.MONTH));
+
+        RowData row = new RowData();
+        row.put("naam", name);
+        row.put("bedrag", amount);
+        row.put("dag", day);
+        row.put("maand", month);
+
+        if (isRecurringPrediction != null) {
+            row.put("is_vaste_last", isRecurringPrediction);
         }
 
-        if (categorie != null) {
-            row.put("categorie", categorie);
+        if (categoryPrediction != null) {
+            row.put("categorie", categoryPrediction);
         }
 
         if (wordEmbedding != null) {
@@ -121,16 +118,4 @@ public class Transaction {
         return row;
     }
 
-    @Override
-    public String toString() {
-        return "Transaction{" +
-                "naam='" + naam + '\'' +
-                ", bedrag=" + bedrag +
-                ", dag=" + dag +
-                ", maand=" + maand +
-                ", is_vaste_last=" + is_vaste_last +
-                ", categorie='" + categorie + '\'' +
-                ", wordEmbedding=" + wordEmbedding +
-                '}';
-    }
 }

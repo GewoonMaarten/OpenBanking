@@ -103,6 +103,12 @@ public class H2OPredictor {
             RowData rowData = transaction.toRowData();
 
             BinomialModelPrediction prediction = model.predictBinomial(rowData);
+            System.out.println("Binomial: ");
+
+            for (int i = 0; i < prediction.classProbabilities.length; i++) {
+                System.out.println(model.getResponseDomainValues()[i] + ": "+ prediction.classProbabilities[i]);
+            }
+
             transaction.setIs_vaste_last(Integer.parseInt(prediction.label));
         } catch (PredictException e) {
             e.printStackTrace();
@@ -121,6 +127,10 @@ public class H2OPredictor {
 
             MultinomialModelPrediction prediction = model.predictMultinomial(rowData);
             transaction.setCategorie(prediction.label);
+            System.out.println("Multinomial: ");
+            for (int i = 0; i < prediction.classProbabilities.length; i++) {
+                System.out.println(model.getResponseDomainValues()[i] + ": "+ prediction.classProbabilities[i]);
+            }
         } catch (PredictException e) {
             e.printStackTrace();
         }

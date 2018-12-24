@@ -1,4 +1,4 @@
-package ai.openbanking.OpenBanking.repositories;
+package ai.openbanking.OpenBanking.repository;
 
 import ai.openbanking.OpenBanking.model.IsRecurringPrediction;
 import org.springframework.data.repository.CrudRepository;

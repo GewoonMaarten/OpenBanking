@@ -5,7 +5,7 @@ data_RABO_1 = read_csv("data/bank_account_transactions_RABO_1.csv")
 data_RABO_2 = read_csv("data/bank_account_transactions_RABO_2.csv")
 data_RABO_3 = read_csv("data/bank_account_transactions_RABO_3.csv")
 data_INGB_1 = read_csv("data/bank_account_transactions_INGB_1.csv")
-
+names(clean_names(data_INGB_1, case = "snake"))
 
 parse_RABO <- function(dataset) {
 
@@ -24,6 +24,7 @@ parse_RABO <- function(dataset) {
         replace(categorie %in% c("uitgaven", "overige", "ovee"), "overige uitgaven") %>%
         as_factor()
       ,naam = parse_character(naam_tegenpartij)
+      ,iban = iban_bban
     ) %>%
     select(
       bedrag
@@ -32,6 +33,7 @@ parse_RABO <- function(dataset) {
       ,maand
       ,is_vaste_last
       ,categorie
+      ,iban
     )
 }
 
@@ -54,6 +56,7 @@ parse_INGB <- function(dataset) {
         replace(categorie == "uitgaven", "overige uitgaven") %>%
         as_factor()
       ,naam = parse_character(kolom2)
+      ,iban = kolom3
     ) %>%
     select(
       bedrag

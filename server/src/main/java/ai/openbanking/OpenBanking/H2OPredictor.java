@@ -1,5 +1,7 @@
 package ai.openbanking.OpenBanking;
 
+import ai.openbanking.OpenBanking.model.CategoryPrediction;
+import ai.openbanking.OpenBanking.model.IsRecurringPrediction;
 import ai.openbanking.OpenBanking.model.Transaction;
 import hex.genmodel.MojoModel;
 import hex.genmodel.easy.EasyPredictModelWrapper;
@@ -56,7 +58,7 @@ public class H2OPredictor {
             EasyPredictModelWrapper model = models.get("WordEmbedding");
 
             String[] tokens = transaction
-                    .getNaam()
+                    .getName()
                     .toLowerCase()
                     .replaceAll("\\b\\w\\b", "")
                     .replaceAll("\\d+", "")
@@ -103,13 +105,15 @@ public class H2OPredictor {
             RowData rowData = transaction.toRowData();
 
             BinomialModelPrediction prediction = model.predictBinomial(rowData);
-            System.out.println("Binomial: ");
 
-            for (int i = 0; i < prediction.classProbabilities.length; i++) {
-                System.out.println(model.getResponseDomainValues()[i] + ": "+ prediction.classProbabilities[i]);
-            }
+            IsRecurringPrediction isRecurringPrediction = new IsRecurringPrediction();
+            isRecurringPrediction.setLabel(prediction.label);
+            
+            isRecurringPrediction.setP0(prediction.classProbabilities[0]);
+            isRecurringPrediction.setP1(prediction.classProbabilities[1]);
 
-            transaction.setIs_vaste_last(Integer.parseInt(prediction.label));
+            transaction.setIsRecurringPrediction(isRecurringPrediction);
+
         } catch (PredictException e) {
             e.printStackTrace();
         }
@@ -126,11 +130,24 @@ public class H2OPredictor {
             RowData rowData = transaction.toRowData();
 
             MultinomialModelPrediction prediction = model.predictMultinomial(rowData);
-            transaction.setCategorie(prediction.label);
-            System.out.println("Multinomial: ");
-            for (int i = 0; i < prediction.classProbabilities.length; i++) {
-                System.out.println(model.getResponseDomainValues()[i] + ": "+ prediction.classProbabilities[i]);
-            }
+
+            CategoryPrediction categoryPrediction = new CategoryPrediction();
+            categoryPrediction.setLabel(prediction.label);
+
+            categoryPrediction.setBoodschappen(prediction.classProbabilities[0]);
+            categoryPrediction.setConsumptie(prediction.classProbabilities[1]);
+            categoryPrediction.setEducatie(prediction.classProbabilities[2]);
+            categoryPrediction.setHuishouden(prediction.classProbabilities[3]);
+            categoryPrediction.setInkomsten(prediction.classProbabilities[4]);
+            categoryPrediction.setKleding(prediction.classProbabilities[5]);
+            categoryPrediction.setMedischeKosten(prediction.classProbabilities[6]);
+            categoryPrediction.setOverigeUitgaven(prediction.classProbabilities[7]);
+            categoryPrediction.setTelecom(prediction.classProbabilities[8]);
+            categoryPrediction.setVervoer(prediction.classProbabilities[9]);
+            categoryPrediction.setVrijeTijd(prediction.classProbabilities[10]);
+
+            transaction.setCategoryPrediction(categoryPrediction);
+
         } catch (PredictException e) {
             e.printStackTrace();
         }

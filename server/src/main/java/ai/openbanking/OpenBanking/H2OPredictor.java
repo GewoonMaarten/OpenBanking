@@ -75,7 +75,7 @@ public class H2OPredictor {
             }
 
             HashMap<String, Float> averaged = new HashMap<>();
-            for (int i = 0; i < wordEmbeddings.get(1).length; i++) {
+            for (int i = 0; i < wordEmbeddings.get(0).length; i++) {
 
                 float average = 0;
                 for (int j = 0; j < wordEmbeddings.size(); j++) {
@@ -108,7 +108,7 @@ public class H2OPredictor {
 
             IsRecurringPrediction isRecurringPrediction = new IsRecurringPrediction();
             isRecurringPrediction.setLabel(prediction.label);
-            
+
             isRecurringPrediction.setP0(prediction.classProbabilities[0]);
             isRecurringPrediction.setP1(prediction.classProbabilities[1]);
 
@@ -144,7 +144,8 @@ public class H2OPredictor {
             categoryPrediction.setOverigeUitgaven(prediction.classProbabilities[7]);
             categoryPrediction.setTelecom(prediction.classProbabilities[8]);
             categoryPrediction.setVervoer(prediction.classProbabilities[9]);
-            categoryPrediction.setVrijeTijd(prediction.classProbabilities[10]);
+            categoryPrediction.setVerzekeringen(prediction.classProbabilities[10]);
+            categoryPrediction.setVrijeTijd(prediction.classProbabilities[11]);
 
             transaction.setCategoryPrediction(categoryPrediction);
 

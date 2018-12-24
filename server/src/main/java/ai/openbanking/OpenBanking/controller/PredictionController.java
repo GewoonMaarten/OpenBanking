@@ -2,10 +2,13 @@ package ai.openbanking.OpenBanking.controller;
 
 import ai.openbanking.OpenBanking.H2OPredictor;
 import ai.openbanking.OpenBanking.model.Transaction;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RequestMapping("/api/predict")
 public class PredictionController {
 

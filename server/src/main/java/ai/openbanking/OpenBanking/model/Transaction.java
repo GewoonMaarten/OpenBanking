@@ -1,6 +1,9 @@
 package ai.openbanking.OpenBanking.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import hex.genmodel.easy.RowData;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.util.Calendar;
 import java.util.Date;
@@ -16,12 +19,17 @@ public class Transaction {
 
     private Double amount;
     private String name;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date date;
 
     @ManyToOne
     private IsRecurringPrediction isRecurringPrediction;
     @ManyToOne
     private CategoryPrediction categoryPrediction;
+
+    @ManyToOne
+    private BankAccount bankAccount;
 
     private HashMap<String, Float> wordEmbedding;
 
@@ -85,6 +93,14 @@ public class Transaction {
 
     public void setWordEmbedding(HashMap<String, Float> wordEmbedding) {
         this.wordEmbedding = wordEmbedding;
+    }
+
+    public BankAccount getBankAccount() {
+        return bankAccount;
+    }
+
+    public void setBankAccount(BankAccount bankAccount) {
+        this.bankAccount = bankAccount;
     }
 
     public RowData toRowData(){

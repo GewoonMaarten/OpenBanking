@@ -1,15 +1,20 @@
 package ai.openbanking.OpenBanking.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import hex.genmodel.easy.RowData;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
-
+@Data
 @Entity(name = "transactions")
 public class Transaction {
 
@@ -24,84 +29,12 @@ public class Transaction {
     private Date date;
 
     @ManyToOne
-    private IsRecurringPrediction isRecurringPrediction;
-    @ManyToOne
-    private CategoryPrediction categoryPrediction;
-
-    @ManyToOne
+    @JoinColumn(name = "bank_account", nullable = false)
     private BankAccount bankAccount;
 
+    @Transient
+    @JsonIgnore
     private HashMap<String, Float> wordEmbedding;
-
-    public Transaction(Double amount, String name, Date date) {
-        this.amount = amount;
-        this.name = name;
-        this.date = date;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public IsRecurringPrediction getIsRecurringPrediction() {
-        return isRecurringPrediction;
-    }
-
-    public void setIsRecurringPrediction(IsRecurringPrediction isRecurringPrediction) {
-        this.isRecurringPrediction = isRecurringPrediction;
-    }
-
-    public CategoryPrediction getCategoryPrediction() {
-        return categoryPrediction;
-    }
-
-    public void setCategoryPrediction(CategoryPrediction categoryPrediction) {
-        this.categoryPrediction = categoryPrediction;
-    }
-
-    public HashMap<String, Float> getWordEmbedding() {
-        return wordEmbedding;
-    }
-
-    public void setWordEmbedding(HashMap<String, Float> wordEmbedding) {
-        this.wordEmbedding = wordEmbedding;
-    }
-
-    public BankAccount getBankAccount() {
-        return bankAccount;
-    }
-
-    public void setBankAccount(BankAccount bankAccount) {
-        this.bankAccount = bankAccount;
-    }
 
     public RowData toRowData(){
 
@@ -116,14 +49,6 @@ public class Transaction {
         row.put("bedrag", amount);
         row.put("dag", day);
         row.put("maand", month);
-
-        if (isRecurringPrediction != null) {
-            row.put("is_vaste_last", isRecurringPrediction);
-        }
-
-        if (categoryPrediction != null) {
-            row.put("categorie", categoryPrediction);
-        }
 
         if (wordEmbedding != null) {
             for (String key: wordEmbedding.keySet()) {

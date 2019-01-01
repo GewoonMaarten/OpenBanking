@@ -1,3 +1,5 @@
+import {Transaction} from './transaction.model';
+
 export class CategoryPrediction {
   id: string;
   label: string;
@@ -13,4 +15,5 @@ export class CategoryPrediction {
   vervoer: number;
   verzekeringen: number;
   vrijeTijd: number;
+  transaction: Transaction;
 }

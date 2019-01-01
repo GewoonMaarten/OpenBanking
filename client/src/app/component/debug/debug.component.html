@@ -27,14 +27,14 @@
 
   <div *ngIf="transaction != null">
     <p >
-      prediction:
+      Prediction:
 
       <b>${{transaction.amount}}</b>
       <span *ngIf="transaction.amount < 0"> to </span>
       <span *ngIf="transaction.amount > 0"> from </span>
       <b>{{transaction.name}}</b> on <b>{{transaction.date}}</b>.
-      <span *ngIf="transaction.isRecurringPrediction.label == 1" class="badge badge-primary">recurring</span>
-      <span class="badge badge-info">{{transaction.categoryPrediction.label}}</span>
+      <span *ngIf="isRecurring.label == 1" class="badge badge-primary">recurring</span>
+      <span class="badge badge-info">{{category.label}}</span>
     </p>
   </div>
 

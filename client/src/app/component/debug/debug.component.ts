@@ -2,8 +2,8 @@ import {Component, LOCALE_ID, OnInit} from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 
-import {DebugService} from '../../service/debug.service';
-import {formatDate} from '@angular/common';
+import {IsRecurringPrediction} from '../../model/isRecurringPrediction.model';
+import {CategoryPrediction} from '../../model/categoryPrediction.model';
 import {Transaction} from '../../model/transaction.model';
 
 @Component({
@@ -19,6 +19,8 @@ export class DebugComponent implements OnInit {
     date: ['']
   });
 
+  isRecurring: IsRecurringPrediction;
+  category: CategoryPrediction;
   transaction: Transaction;
 
   constructor(
@@ -44,7 +46,11 @@ export class DebugComponent implements OnInit {
         date: dateString
       }
     }).subscribe(data => {
-      this.transaction = <Transaction> data;
+      this.transaction = data.category.transaction;
+      this.category = data.category;
+      this.isRecurring = data.isRecurring;
+
+      // console.log(data.category);
     });
   }
 }

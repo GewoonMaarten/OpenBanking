@@ -1,45 +1,56 @@
 package ai.openbanking.OpenBanking.controller;
 
 import ai.openbanking.OpenBanking.H2OPredictor;
+import ai.openbanking.OpenBanking.model.CategoryPrediction;
+import ai.openbanking.OpenBanking.model.IsRecurringPrediction;
 import ai.openbanking.OpenBanking.model.Transaction;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+
 @RestController
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RequestMapping("/api/predict")
 public class PredictionController {
 
-    @RequestMapping("isvastelast")
-    public Transaction predictIsVasteLast(Transaction transaction) {
-        H2OPredictor h2OPredictor = new H2OPredictor();
 
-        transaction = h2OPredictor.predictWordEmbedding(transaction);
-        transaction = h2OPredictor.predictIsVasteLast(transaction);
+    private final H2OPredictor predictor;
 
-        return transaction;
+    @Autowired
+    PredictionController(H2OPredictor predictor){ this.predictor = predictor; }
+
+    @GetMapping("/isRecurring")
+    IsRecurringPrediction predictIsRecurring(Transaction transaction) {
+
+        transaction = predictor.predictWordEmbedding(transaction);
+        IsRecurringPrediction prediction = predictor.predictIsRecurring(transaction);
+
+        return prediction;
     }
 
-    @RequestMapping("categorie")
-    public Transaction predictCategorie(Transaction transaction) {
-        H2OPredictor h2OPredictor = new H2OPredictor();
+    @GetMapping("/category")
+    CategoryPrediction predictCategory(Transaction transaction) {
 
-        transaction = h2OPredictor.predictWordEmbedding(transaction);
-        transaction = h2OPredictor.predictCategorie(transaction);
+        transaction = predictor.predictWordEmbedding(transaction);
+        CategoryPrediction prediction = predictor.predictCategory(transaction);
 
-        return transaction;
+        return prediction;
     }
 
-    @RequestMapping("all")
-    public Transaction predictAll(Transaction transaction) {
-        H2OPredictor h2OPredictor = new H2OPredictor();
+    @GetMapping("/all")
+    HashMap<String, Object> predictAll(Transaction transaction) {
+        HashMap<String, Object> predictions = new HashMap<>();
 
-        transaction = h2OPredictor.predictWordEmbedding(transaction);
-        transaction = h2OPredictor.predictIsVasteLast(transaction);
-        transaction = h2OPredictor.predictCategorie(transaction);
 
-        return transaction;
+        transaction = predictor.predictWordEmbedding(transaction);
+        CategoryPrediction categoryPrediction = predictor.predictCategory(transaction);
+        IsRecurringPrediction isRecurringPrediction = predictor.predictIsRecurring(transaction);
+
+        predictions.put("category", categoryPrediction);
+        predictions.put("isRecurring", isRecurringPrediction);
+
+        return predictions;
     }
 }

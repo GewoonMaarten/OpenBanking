@@ -10,6 +10,7 @@ import hex.genmodel.easy.exception.PredictException;
 import hex.genmodel.easy.prediction.BinomialModelPrediction;
 import hex.genmodel.easy.prediction.MultinomialModelPrediction;
 import hex.genmodel.easy.prediction.Word2VecPrediction;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -18,11 +19,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import java.util.stream.Stream;
 
+@Component
 public class H2OPredictor {
 
-    HashMap<String, EasyPredictModelWrapper> models;
+    private HashMap<String, EasyPredictModelWrapper> models;
 
     public H2OPredictor(){
         models = loadModels();
@@ -94,10 +97,8 @@ public class H2OPredictor {
         return transaction;
     }
 
-    public Transaction predictIsVasteLast(Transaction transaction) {
-
-        if(transaction.getWordEmbedding() == null) return transaction;
-
+    public IsRecurringPrediction predictIsRecurring(Transaction transaction) {
+        IsRecurringPrediction isRecurringPrediction = new IsRecurringPrediction();
 
         try {
             EasyPredictModelWrapper model = models.get("Binomial");
@@ -106,23 +107,22 @@ public class H2OPredictor {
 
             BinomialModelPrediction prediction = model.predictBinomial(rowData);
 
-            IsRecurringPrediction isRecurringPrediction = new IsRecurringPrediction();
             isRecurringPrediction.setLabel(prediction.label);
 
             isRecurringPrediction.setP0(prediction.classProbabilities[0]);
             isRecurringPrediction.setP1(prediction.classProbabilities[1]);
 
-            transaction.setIsRecurringPrediction(isRecurringPrediction);
+            isRecurringPrediction.setTransaction(transaction);
 
         } catch (PredictException e) {
             e.printStackTrace();
         }
 
-        return transaction;
+        return isRecurringPrediction;
     }
 
-    public Transaction predictCategorie(Transaction transaction) {
-        if(transaction.getWordEmbedding() == null) return transaction;
+    public CategoryPrediction predictCategory(Transaction transaction) {
+        CategoryPrediction categoryPrediction = new CategoryPrediction();
 
         try {
             EasyPredictModelWrapper model = models.get("Multinomial");
@@ -131,7 +131,6 @@ public class H2OPredictor {
 
             MultinomialModelPrediction prediction = model.predictMultinomial(rowData);
 
-            CategoryPrediction categoryPrediction = new CategoryPrediction();
             categoryPrediction.setLabel(prediction.label);
 
             categoryPrediction.setBoodschappen(prediction.classProbabilities[0]);
@@ -147,12 +146,12 @@ public class H2OPredictor {
             categoryPrediction.setVerzekeringen(prediction.classProbabilities[10]);
             categoryPrediction.setVrijeTijd(prediction.classProbabilities[11]);
 
-            transaction.setCategoryPrediction(categoryPrediction);
+            categoryPrediction.setTransaction(transaction);
 
         } catch (PredictException e) {
             e.printStackTrace();
         }
 
-        return transaction;
+        return categoryPrediction;
     }
 }

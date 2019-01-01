@@ -9,6 +9,7 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,7 +27,7 @@ public class Transaction {
     private String name;
     @JsonFormat(pattern = "dd/MM/yyyy")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private Date date;
+    private LocalDate date;
 
     @ManyToOne
     @JoinColumn(name = "bank_account", nullable = false)
@@ -38,11 +39,8 @@ public class Transaction {
 
     public RowData toRowData(){
 
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-
-        String day  = String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
-        String month = String.valueOf(cal.get(Calendar.MONTH));
+        String day  = String.valueOf(date.getDayOfMonth());
+        String month = String.valueOf(date.getMonth());
 
         RowData row = new RowData();
         row.put("naam", name);

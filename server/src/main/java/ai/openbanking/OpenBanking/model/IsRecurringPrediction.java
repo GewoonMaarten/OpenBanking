@@ -1,7 +1,6 @@
 package ai.openbanking.OpenBanking.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.*;
+import lombok.Data;
 
 import javax.persistence.*;
 
@@ -19,7 +18,7 @@ public class IsRecurringPrediction {
     @Column(name = "1")
     private Double p1;
 
-    @ManyToOne()
-    @JoinColumn(name = "transaction")
+    @ManyToOne
+    @JoinColumn(name="transaction")
     private Transaction transaction;
 }

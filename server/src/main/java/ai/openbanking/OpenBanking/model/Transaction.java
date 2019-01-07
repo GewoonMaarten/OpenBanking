@@ -3,17 +3,13 @@ package ai.openbanking.OpenBanking.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import hex.genmodel.easy.RowData;
-import lombok.*;
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 @Data
 @Entity(name = "transactions")
@@ -31,6 +27,7 @@ public class Transaction {
 
     @ManyToOne
     @JoinColumn(name = "bank_account", nullable = false)
+    @JsonBackReference
     private BankAccount bankAccount;
 
     @Transient

@@ -1,9 +1,10 @@
 package ai.openbanking.OpenBanking.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.*;
+
+import lombok.Data;
 
 import javax.persistence.*;
+
 
 @Data
 @Entity(name = "category_predictions")
@@ -31,9 +32,8 @@ public class CategoryPrediction {
     @Column(name = "vrije_tijd")
     private Double vrijeTijd;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "transaction")
     private Transaction transaction;
-
 
 }

@@ -112,7 +112,7 @@ public class H2OPredictor {
             isRecurringPrediction.setP0(prediction.classProbabilities[0]);
             isRecurringPrediction.setP1(prediction.classProbabilities[1]);
 
-            isRecurringPrediction.setTransaction(transaction);
+            //isRecurringPrediction.setTransaction(transaction);
 
         } catch (PredictException e) {
             e.printStackTrace();
@@ -146,7 +146,7 @@ public class H2OPredictor {
             categoryPrediction.setVerzekeringen(prediction.classProbabilities[10]);
             categoryPrediction.setVrijeTijd(prediction.classProbabilities[11]);
 
-            categoryPrediction.setTransaction(transaction);
+            //categoryPrediction.setTransaction(transaction);
 
         } catch (PredictException e) {
             e.printStackTrace();

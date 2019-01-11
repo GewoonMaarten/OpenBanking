@@ -19,8 +19,6 @@ export class DebugComponent implements OnInit {
     date: ['']
   });
 
-  isRecurring: IsRecurringPrediction;
-  category: CategoryPrediction;
   transaction: Transaction;
 
   constructor(
@@ -37,8 +35,11 @@ export class DebugComponent implements OnInit {
 
     const date = new Date(this.transactionForm.get('date').value);
 
-    console.log(date);
-    const dateString = `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;
+    const day = ("0" + date.getDate()).slice(-2);
+    const month = ("0" + (date.getMonth() + 1)).slice(-2);
+
+
+    const dateString = `${day}/${month}/${date.getFullYear()}`;
     this.http.get('http://localhost:8090/api/predict/all', {
       params: {
         amount: this.transactionForm.get('amount').value,
@@ -46,11 +47,7 @@ export class DebugComponent implements OnInit {
         date: dateString
       }
     }).subscribe(data => {
-      this.transaction = data.category.transaction;
-      this.category = data.category;
-      this.isRecurring = data.isRecurring;
-
-      // console.log(data.category);
+      this.transaction = <Transaction> data;
     });
   }
 }

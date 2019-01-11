@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 @Data
 @Entity(name = "transactions")
-public class Transaction {
+public class    Transaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,6 +30,13 @@ public class Transaction {
     @JsonBackReference
     private BankAccount bankAccount;
 
+
+    @Enumerated(EnumType.STRING)
+    private Category category;
+
+    @Column(name = "is_recurring")
+    private String isRecurring;
+
     @Transient
     @JsonIgnore
     private HashMap<String, Float> wordEmbedding;
@@ -37,7 +44,7 @@ public class Transaction {
     public RowData toRowData(){
 
         String day  = String.valueOf(date.getDayOfMonth());
-        String month = String.valueOf(date.getMonth());
+        String month = String.valueOf(date.getMonthValue());
 
         RowData row = new RowData();
         row.put("naam", name);

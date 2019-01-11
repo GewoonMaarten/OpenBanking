@@ -4,4 +4,6 @@ export class Transaction {
   amount: number;
   name: string;
   date: Date;
+  isRecurring: string;
+  category: string;
 }

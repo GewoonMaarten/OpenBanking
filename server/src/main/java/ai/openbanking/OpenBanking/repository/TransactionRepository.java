@@ -1,5 +1,6 @@
 package ai.openbanking.OpenBanking.repository;
 
+import ai.openbanking.OpenBanking.model.Category;
 import ai.openbanking.OpenBanking.model.Transaction;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,4 +13,6 @@ public interface TransactionRepository extends PagingAndSortingRepository<Transa
 
     Optional<Page<Transaction>> findByBankAccount_Id(Pageable pageable, Integer id);
     Optional<List<Transaction>> findByBankAccount_Id(Integer id);
+    Optional<Page<Transaction>> findByCategory(Pageable pageable, Category category);
+    Optional<Page<Transaction>> findByIsRecurring(Pageable pageable, String isRecurring);
 }

@@ -4,11 +4,14 @@ import ai.openbanking.OpenBanking.H2OPredictor;
 import ai.openbanking.OpenBanking.model.CategoryPrediction;
 import ai.openbanking.OpenBanking.model.IsRecurringPrediction;
 import ai.openbanking.OpenBanking.model.Transaction;
+import ai.openbanking.OpenBanking.repository.TransactionRepository;
+import com.fasterxml.jackson.databind.util.ArrayIterator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @RestController
@@ -17,40 +20,65 @@ public class PredictionController {
 
 
     private final H2OPredictor predictor;
+    private final TransactionRepository repository;
 
     @Autowired
-    PredictionController(H2OPredictor predictor){ this.predictor = predictor; }
+    PredictionController(H2OPredictor predictor, TransactionRepository repository){
+        this.predictor = predictor;
+        this.repository = repository;
+    }
 
     @GetMapping("/isRecurring")
-    IsRecurringPrediction predictIsRecurring(Transaction transaction) {
+    Transaction predictIsRecurring(Transaction transaction) {
 
         transaction = predictor.predictWordEmbedding(transaction);
-        IsRecurringPrediction prediction = predictor.predictIsRecurring(transaction);
+        transaction = predictor.predictIsRecurring(transaction);
 
-        return prediction;
+        return transaction;
     }
 
     @GetMapping("/category")
-    CategoryPrediction predictCategory(Transaction transaction) {
+    Transaction predictCategory(Transaction transaction) {
 
         transaction = predictor.predictWordEmbedding(transaction);
-        CategoryPrediction prediction = predictor.predictCategory(transaction);
+        transaction = predictor.predictCategory(transaction);
 
-        return prediction;
+        return transaction;
     }
 
     @GetMapping("/all")
-    HashMap<String, Object> predictAll(Transaction transaction) {
+    Transaction predictAll(Transaction transaction) {
         HashMap<String, Object> predictions = new HashMap<>();
 
-
         transaction = predictor.predictWordEmbedding(transaction);
-        CategoryPrediction categoryPrediction = predictor.predictCategory(transaction);
-        IsRecurringPrediction isRecurringPrediction = predictor.predictIsRecurring(transaction);
+        transaction = predictor.predictIsRecurring(transaction);
+        transaction = predictor.predictCategory(transaction);
 
-        predictions.put("category", categoryPrediction);
-        predictions.put("isRecurring", isRecurringPrediction);
+        return transaction;
+    }
 
-        return predictions;
+    @GetMapping("/everything")
+    boolean predictEverything() {
+
+        ArrayList<Transaction> transactions = new ArrayList<>();
+
+        this.repository.findAll().forEach(transaction -> {
+
+            try {
+                transaction = predictor.predictWordEmbedding(transaction);
+                transaction = predictor.predictIsRecurring(transaction);
+                transaction = predictor.predictCategory(transaction);
+            } catch (NullPointerException e){
+                return;
+            }
+
+            transactions.add(transaction);
+        });
+
+        System.out.println("saving...");
+
+        repository.saveAll(transactions);
+
+        return true;
     }
 }

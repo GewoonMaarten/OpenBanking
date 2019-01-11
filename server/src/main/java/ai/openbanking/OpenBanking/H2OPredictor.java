@@ -1,5 +1,6 @@
 package ai.openbanking.OpenBanking;
 
+import ai.openbanking.OpenBanking.model.Category;
 import ai.openbanking.OpenBanking.model.CategoryPrediction;
 import ai.openbanking.OpenBanking.model.IsRecurringPrediction;
 import ai.openbanking.OpenBanking.model.Transaction;
@@ -55,7 +56,7 @@ public class H2OPredictor {
         return models;
     }
 
-    public Transaction predictWordEmbedding(Transaction transaction) {
+    public Transaction predictWordEmbedding(Transaction transaction) throws NullPointerException {
 ;
         try {
             EasyPredictModelWrapper model = models.get("WordEmbedding");
@@ -71,8 +72,11 @@ public class H2OPredictor {
             ArrayList<float[]> wordEmbeddings = new ArrayList<>();
 
             for(String token : tokens) {
+                if (token.length() <= 0) continue;
+
                 RowData rowData = new RowData();
                 rowData.put("naam", token);
+
                 Word2VecPrediction prediction = model.predictWord2Vec(rowData);
                 wordEmbeddings.add(prediction.wordEmbeddings.get("naam"));
             }
@@ -81,8 +85,8 @@ public class H2OPredictor {
             for (int i = 0; i < wordEmbeddings.get(0).length; i++) {
 
                 float average = 0;
-                for (int j = 0; j < wordEmbeddings.size(); j++) {
-                    average += wordEmbeddings.get(j)[i];
+                for (float[] wordEmbedding : wordEmbeddings) {
+                    average += wordEmbedding[i];
                 }
 
                 average /= wordEmbeddings.size();
@@ -90,14 +94,17 @@ public class H2OPredictor {
             }
 
             transaction.setWordEmbedding(averaged);
+
         } catch (PredictException e) {
             e.printStackTrace();
+        } catch (NullPointerException e) {
+            throw e;
         }
 
         return transaction;
     }
 
-    public IsRecurringPrediction predictIsRecurring(Transaction transaction) {
+    public Transaction predictIsRecurring(Transaction transaction) {
         IsRecurringPrediction isRecurringPrediction = new IsRecurringPrediction();
 
         try {
@@ -106,22 +113,16 @@ public class H2OPredictor {
             RowData rowData = transaction.toRowData();
 
             BinomialModelPrediction prediction = model.predictBinomial(rowData);
-
-            isRecurringPrediction.setLabel(prediction.label);
-
-            isRecurringPrediction.setP0(prediction.classProbabilities[0]);
-            isRecurringPrediction.setP1(prediction.classProbabilities[1]);
-
-            //isRecurringPrediction.setTransaction(transaction);
+            transaction.setIsRecurring(prediction.label);
 
         } catch (PredictException e) {
             e.printStackTrace();
         }
 
-        return isRecurringPrediction;
+        return transaction;
     }
 
-    public CategoryPrediction predictCategory(Transaction transaction) {
+    public Transaction predictCategory(Transaction transaction) {
         CategoryPrediction categoryPrediction = new CategoryPrediction();
 
         try {
@@ -131,27 +132,12 @@ public class H2OPredictor {
 
             MultinomialModelPrediction prediction = model.predictMultinomial(rowData);
 
-            categoryPrediction.setLabel(prediction.label);
-
-            categoryPrediction.setBoodschappen(prediction.classProbabilities[0]);
-            categoryPrediction.setConsumptie(prediction.classProbabilities[1]);
-            categoryPrediction.setEducatie(prediction.classProbabilities[2]);
-            categoryPrediction.setHuishouden(prediction.classProbabilities[3]);
-            categoryPrediction.setInkomsten(prediction.classProbabilities[4]);
-            categoryPrediction.setKleding(prediction.classProbabilities[5]);
-            categoryPrediction.setMedischeKosten(prediction.classProbabilities[6]);
-            categoryPrediction.setOverigeUitgaven(prediction.classProbabilities[7]);
-            categoryPrediction.setTelecom(prediction.classProbabilities[8]);
-            categoryPrediction.setVervoer(prediction.classProbabilities[9]);
-            categoryPrediction.setVerzekeringen(prediction.classProbabilities[10]);
-            categoryPrediction.setVrijeTijd(prediction.classProbabilities[11]);
-
-            //categoryPrediction.setTransaction(transaction);
+            transaction.setCategory(Category.fromString(prediction.label));
 
         } catch (PredictException e) {
             e.printStackTrace();
         }
 
-        return categoryPrediction;
+        return transaction;
     }
 }

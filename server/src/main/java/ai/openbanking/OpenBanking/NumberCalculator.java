@@ -120,17 +120,11 @@ public class NumberCalculator {
                 .stream().map(Transaction::getAmount).collect(DoubleStatistics.collector()).getStandardDeviation();
 
         return transactions.stream().filter(transaction -> {
-            //double zScore = Math.abs((transaction.getAmount() - average) / std);
             double zScore = (transaction.getAmount() - average) / std;
+            double zScoreAbs = Math.abs(zScore);
 
-            if (zScore > threshold) {
-                System.out.println("Outlier: ");
-                System.out.println(transaction.getName());
-                System.out.println(transaction.getAmount());
-                System.out.println(zScore);
-            }
-
-            return zScore > threshold;
+            if (zScore > 0) return false;
+            return zScoreAbs > threshold;
         }).collect(Collectors.toList());
     }
 }

@@ -120,7 +120,8 @@ public class NumberCalculator {
                 .stream().map(Transaction::getAmount).collect(DoubleStatistics.collector()).getStandardDeviation();
 
         return transactions.stream().filter(transaction -> {
-            double zScore = Math.abs((transaction.getAmount() - average) / std);
+            //double zScore = Math.abs((transaction.getAmount() - average) / std);
+            double zScore = (transaction.getAmount() - average) / std;
 
             if (zScore > threshold) {
                 System.out.println("Outlier: ");

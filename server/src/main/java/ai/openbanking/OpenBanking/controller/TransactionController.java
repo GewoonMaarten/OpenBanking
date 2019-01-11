@@ -9,8 +9,10 @@ import ai.openbanking.OpenBanking.repository.TransactionRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,19 +32,13 @@ public class TransactionController {
     @GetMapping("")
     Page<Transaction> all(
             Pageable pageable,
-            @RequestParam Optional<Integer> bankAccountId,
+            @RequestParam Integer bankAccountId,
             @RequestParam Optional<Category> category) {
 
-        if (bankAccountId.isPresent()) {
-            return repository.findByBankAccount_Id(pageable, bankAccountId.get())
-                    .orElseThrow(() -> new BankAccountNotFoundException(bankAccountId.get()));
-        } else if (category.isPresent()) {
-            return repository.findByCategory(pageable, category.get())
-                    .orElseThrow(() -> new TransactionNotFoundException(category.get().getLabel()));
-        }
-        else {
-            return repository.findAll(pageable);
-        }
+        return category.map(category1 -> repository.findByBankAccount_IdAndCategory(pageable, bankAccountId, category1)
+                .orElseThrow(() -> new BankAccountNotFoundException(bankAccountId)))
+                .orElseGet(() -> repository.findByBankAccount_Id(pageable, bankAccountId)
+                .orElseThrow(() -> new BankAccountNotFoundException(bankAccountId)));
     }
 
     @GetMapping("{id}")
@@ -52,11 +48,36 @@ public class TransactionController {
     }
 
     @GetMapping("/outliers")
-    Page<Transaction> outliers(Pageable pageable, @RequestParam double threshold) {
+    Page<Transaction> outliers(Pageable pageable,
+                               @RequestParam double threshold,
+                               @RequestParam int bankAccountId,
+                               @RequestParam Optional<Category> category,
+                               @RequestParam @DateTimeFormat(pattern="dd/MM/yyyy") Optional<LocalDate> dateStart,
+                               @RequestParam @DateTimeFormat(pattern="dd/MM/yyyy") Optional<LocalDate> dateEnd) {
 
         final long currentTotal = pageable.getOffset() + pageable.getPageSize();
+        Iterable<Transaction> transactionIterable;
 
-        Iterable<Transaction> transactionIterable = repository.findAll();
+        if(category.isPresent() && dateStart.isPresent() && dateEnd.isPresent()) {
+
+            transactionIterable = repository
+                    .findByBankAccount_IdAndCategoryAndDateBetween(
+                        bankAccountId,
+                        category.get(),
+                        dateStart.get(),
+                        dateEnd.get())
+                    .orElseThrow(() -> new TransactionNotFoundException(category.get().getLabel()));
+
+        } else if(category.isPresent() && !dateStart.isPresent() && !dateEnd.isPresent()) {
+
+            transactionIterable = repository.findByBankAccount_IdAndCategory(bankAccountId, category.get())
+                    .orElseThrow(() -> new TransactionNotFoundException(category.get().getLabel()));
+
+        } else {
+            transactionIterable = repository.findByBankAccount_Id(bankAccountId)
+                    .orElseThrow(() -> new BankAccountNotFoundException(bankAccountId));
+        }
+
         List<Transaction> transactionList = new ArrayList<>();
         transactionIterable.forEach(transactionList::add);
 

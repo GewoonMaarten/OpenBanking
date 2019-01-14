@@ -1,8 +1,6 @@
 package ai.openbanking.OpenBanking;
 
 import ai.openbanking.OpenBanking.model.Category;
-import ai.openbanking.OpenBanking.model.CategoryPrediction;
-import ai.openbanking.OpenBanking.model.IsRecurringPrediction;
 import ai.openbanking.OpenBanking.model.Transaction;
 import hex.genmodel.MojoModel;
 import hex.genmodel.easy.EasyPredictModelWrapper;
@@ -105,7 +103,6 @@ public class H2OPredictor {
     }
 
     public Transaction predictIsRecurring(Transaction transaction) {
-        IsRecurringPrediction isRecurringPrediction = new IsRecurringPrediction();
 
         try {
             EasyPredictModelWrapper model = models.get("Binomial");
@@ -123,8 +120,6 @@ public class H2OPredictor {
     }
 
     public Transaction predictCategory(Transaction transaction) {
-        CategoryPrediction categoryPrediction = new CategoryPrediction();
-
         try {
             EasyPredictModelWrapper model = models.get("Multinomial");
 

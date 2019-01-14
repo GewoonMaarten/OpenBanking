@@ -17,7 +17,7 @@ public class PhoneSubscription {
     private Integer minutes;
     @Column(name = "internet_gb")
     private Double internetGB;
-    private Integer price;
+    private Double price;
     private boolean discount;
     @Column(name = "connection_costs")
     private Integer connectionCost;

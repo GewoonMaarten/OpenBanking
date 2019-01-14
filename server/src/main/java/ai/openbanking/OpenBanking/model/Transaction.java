@@ -10,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.Optional;
 
 @Data
 @Entity(name = "transactions")
@@ -37,10 +38,10 @@ public class    Transaction {
     @Column(name = "is_recurring")
     private String isRecurring;
 
-    @ManyToOne
-    @Column(name = "phone_subscription")
-    @JsonBackReference
-    private PhoneSubscription phoneSubscription;
+//    @ManyToOne
+//    @Column(name = "phone_subscription")
+//    @JsonBackReference
+//    private PhoneSubscription phoneSubscription;
 
     @Transient
     @JsonIgnore
@@ -66,4 +67,7 @@ public class    Transaction {
         return row;
     }
 
+    public boolean isPhoneSubscription() {
+        return category.getLabel().equals("Telecom");
+    }
 }

@@ -1,11 +1,8 @@
 package ai.openbanking.OpenBanking.controller;
 
 import ai.openbanking.OpenBanking.H2OPredictor;
-import ai.openbanking.OpenBanking.model.CategoryPrediction;
-import ai.openbanking.OpenBanking.model.IsRecurringPrediction;
 import ai.openbanking.OpenBanking.model.Transaction;
 import ai.openbanking.OpenBanking.repository.TransactionRepository;
-import com.fasterxml.jackson.databind.util.ArrayIterator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

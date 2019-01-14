@@ -7,6 +7,8 @@ import ai.openbanking.OpenBanking.model.PhoneSubscription;
 import ai.openbanking.OpenBanking.model.Transaction;
 import ai.openbanking.OpenBanking.repository.PhoneSubscriptionRepository;
 import ai.openbanking.OpenBanking.repository.TransactionRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,7 +65,8 @@ public class PhoneSubscriptionController {
     }
 
     @GetMapping("alternative")
-    List<PhoneSubscription> alternative(
+    Page<PhoneSubscription> alternative(
+            Pageable pageable,
             @Param("id") Integer id,
             @Param("internet") Optional<Boolean> internet,
             @Param("minutes") Optional<Boolean> minutes,
@@ -73,11 +76,11 @@ public class PhoneSubscriptionController {
                 .orElseThrow(() -> new PhoneSubscriptionNotFoundException(id));
 
         if(internet.isPresent() && internet.get()) {
-            return phoneSubscriptionRepository.findByPriceOrderByInternetGBDesc(phoneSubscription.getPrice());
+            return phoneSubscriptionRepository.findByPriceOrderByInternetGBDesc(phoneSubscription.getPrice(), pageable);
         } else if (minutes.isPresent() && minutes.get()) {
-            return phoneSubscriptionRepository.findByPriceOrderByMinutesDesc(phoneSubscription.getPrice());
+            return phoneSubscriptionRepository.findByPriceOrderByMinutesDesc(phoneSubscription.getPrice(), pageable);
         } else if (sms.isPresent() && sms.get()) {
-            return phoneSubscriptionRepository.findByPriceOrderBySmsDesc(phoneSubscription.getPrice());
+            return phoneSubscriptionRepository.findByPriceOrderBySmsDesc(phoneSubscription.getPrice(), pageable);
         }
 
         return null;

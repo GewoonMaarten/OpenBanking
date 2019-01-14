@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/transactions")
@@ -81,7 +83,12 @@ public class TransactionController {
         List<Transaction> transactionList = new ArrayList<>();
         transactionIterable.forEach(transactionList::add);
 
-        transactionList = calculator.elevatedTransactions(transactionList, threshold);
+        transactionList = calculator.zscore(transactionList).entrySet().stream().filter(x -> {
+            Double zScore = x.getKey();
+            double zScoreAbs = Math.abs(zScore);
+            if (zScore > 0) return false;
+            return zScoreAbs > threshold;
+        }).map(Map.Entry::getValue).collect(Collectors.toList());
 
         return new PageImpl<>(transactionList, pageable, currentTotal);
     }

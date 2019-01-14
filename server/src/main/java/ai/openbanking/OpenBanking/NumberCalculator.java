@@ -108,23 +108,21 @@ public class NumberCalculator {
 
     /**
      * Get the outliers based on the calculated z-score and the given threshold.
-     * @param threshold threshold for the z-score
      * @param transactions list of transactions
      */
-    public List<Transaction> elevatedTransactions(List<Transaction> transactions, double threshold){
+    public Map<Double, Transaction> zscore(List<Transaction> transactions){
+
+        Map<Double, Transaction> transactionsMap = new TreeMap<>();
 
         double average = transactions
                 .stream().mapToDouble(Transaction::getAmount).average().orElse(0.0d);
-
         double std = transactions
                 .stream().map(Transaction::getAmount).collect(DoubleStatistics.collector()).getStandardDeviation();
 
-        return transactions.stream().filter(transaction -> {
+        transactions.forEach(transaction -> {
             double zScore = (transaction.getAmount() - average) / std;
-            double zScoreAbs = Math.abs(zScore);
-
-            if (zScore > 0) return false;
-            return zScoreAbs > threshold;
-        }).collect(Collectors.toList());
+            transactionsMap.put(zScore, transaction);
+        });
+        return transactionsMap;
     }
 }

@@ -14,4 +14,7 @@ public interface PhoneSubscriptionRepository extends JpaRepository<PhoneSubscrip
             value = "SELECT * FROM phone_subscription p WHERE p.provider REGEXP :regex AND p.price = :price"
     )
     List<PhoneSubscription> findByProviderRegexAndPrice(@Param("regex") String regex, @Param("price") Double price);
+    List<PhoneSubscription> findByPriceOrderByInternetGBDesc(Double price);
+    List<PhoneSubscription> findByPriceOrderByMinutesDesc(Double price);
+    List<PhoneSubscription> findByPriceOrderBySmsDesc(Double price);
 }

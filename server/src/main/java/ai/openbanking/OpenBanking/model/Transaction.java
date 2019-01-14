@@ -37,6 +37,11 @@ public class    Transaction {
     @Column(name = "is_recurring")
     private String isRecurring;
 
+    @ManyToOne
+    @Column(name = "phone_subscription")
+    @JsonBackReference
+    private PhoneSubscription phoneSubscription;
+
     @Transient
     @JsonIgnore
     private HashMap<String, Float> wordEmbedding;

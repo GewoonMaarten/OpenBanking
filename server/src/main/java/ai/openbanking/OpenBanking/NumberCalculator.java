@@ -11,8 +11,16 @@ import java.util.stream.Collectors;
 public class NumberCalculator {
 
 
-    public double balance(List<Transaction> transactionList, Date today) {
-        return 0;
+    public double currentExpenses(List<Transaction> transactionList, LocalDate today) {
+        return transactionList.stream()
+                .filter(transaction -> {
+                    LocalDate date = transaction.getDate();
+
+                    return date.getMonthValue() == today.getMonthValue() &&
+                            date.getYear() == today.getYear() &&
+                            date.getDayOfMonth() <= today.getDayOfMonth();
+
+                }).mapToDouble(Transaction::getAmount).sum();
     }
 
     /**
@@ -83,8 +91,7 @@ public class NumberCalculator {
                     LocalDate date = transaction.getDate();
 
                     return date.getMonthValue() == today.getMonthValue() &&
-                            date.getDayOfMonth() > today.getDayOfMonth() &&
-                            transaction.getAmount() < 0;
+                            date.getDayOfMonth() > today.getDayOfMonth();
                 })
                 .collect(
                     Collectors.groupingBy(

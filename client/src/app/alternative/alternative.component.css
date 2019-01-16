@@ -1,0 +1,46 @@
+.content {
+    padding: 0 180px;
+}
+
+.title {
+    font-family: ubuntu-bold;
+    margin-top: 25px;
+}
+
+.subscription {
+    background-color: white;
+    margin: 20px 30px;
+    padding: 0 45px;
+}
+
+.subscription:first-child {
+    margin-left: 17px;
+}
+
+.subscription:last-child {
+    margin-right: 17px;
+}
+
+.provider {
+    font-family: ubuntu-bold;
+    font-size: 25px;
+    margin: 35px 15px 15px 15px;
+}
+
+.price {
+    font-family: ubuntu-bold;
+    font-size: 18px;
+    margin-top: 16px;
+}
+
+.align-end {
+    text-align: end;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.btn-subscription {
+    margin: 35px 0;
+}

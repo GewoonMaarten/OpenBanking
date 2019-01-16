@@ -1,34 +1,23 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule  } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './component/login/login.component';
-import { RegisterComponent } from './component/register/register.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { DebugComponent } from './debug/debug.component';
+import { HomeComponent } from './home/home.component';
+import { TransactionTableComponent } from './transaction-table/transaction-table.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
-import { RouterModule, Routes } from '@angular/router';
-import { DebugComponent } from './component/debug/debug.component';
-import {DebugService} from './service/debug.service';
+import { AppRoutingModule } from "./app-routing.module";
 
-const appRoutes: Routes = [
-  {
-    path: 'login',
-    component: LoginComponent
-  },
-  {
-    path: 'register',
-    component: RegisterComponent
-  },
-  {
-    path: 'debug',
-    component: DebugComponent
-  },
-  { path: '',
-    redirectTo: '/login',
-    pathMatch: 'full'
-  }
-];
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faSignOutAlt, faUser, faForward, faClock } from "@fortawesome/free-solid-svg-icons";
+import { AlternativeComponent } from './alternative/alternative.component';
+//import { faClock } from "@fortawesome/free-regular-svg-icons";
 
 
 @NgModule({
@@ -36,15 +25,30 @@ const appRoutes: Routes = [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    DebugComponent
+    DebugComponent,
+    HomeComponent,
+    TransactionTableComponent,
+    NavbarComponent,
+    AlternativeComponent
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes, {enableTracing: true})
+    FormsModule,
+    FontAwesomeModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+  constructor() {
+    library.add(
+      faSignOutAlt,
+      faUser,
+      faClock,
+      faForward
+    )
+  }
+}

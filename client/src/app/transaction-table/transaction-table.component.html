@@ -1,0 +1,70 @@
+<div *ngIf="transactions != null">
+
+  <div class="btn-group" role="group" aria-label="Basic example">
+    <button 
+      type="button" 
+      class="btn btn-secondary"
+      [routerLink]="['./']" 
+      [queryParams]="{ page: 1 }"
+      [disabled]="currentPage == 1"><<</button>
+    <button 
+      type="button" 
+      class="btn btn-secondary"
+      [routerLink]="['./']" 
+      [queryParams]="{ page: currentPage - 1 }"
+      [disabled]="currentPage == 1"><</button>
+
+    <ng-container *ngFor="let n of totalPagesList">
+        <button 
+        type="button" 
+        class="btn btn-secondary"
+        *ngIf="n < currentPage + 5 && n > currentPage - 5"
+        [disabled]="n == currentPage"
+        [routerLink]="['./']" [queryParams]="{ page: n }">{{n}}</button>
+    </ng-container>
+
+    <button
+      type="button" 
+      class="btn btn-secondary"
+      *ngIf="currentPage <= totalPages - 5"
+      disabled>...</button>
+
+    <button 
+      type="button" 
+      class="btn btn-secondary" 
+      [disabled]="currentPage == totalPages"
+      [routerLink]="['./']" 
+      [queryParams]="{ page: currentPage + 1 }">></button>
+
+    <button 
+      type="button" 
+      class="btn btn-secondary" 
+      [disabled]="currentPage == totalPages"
+      [routerLink]="['./']" 
+      [queryParams]="{ page: totalPages }">>></button>
+  </div>
+
+  <table class="table table-striped"
+    [class.loading]="loading">
+
+    <thead>
+      <tr>
+        <th scope="col">Omschrijving</th>
+        <th scope="col">Label</th>
+        <th scope="col">Bedrag</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let transaction of transactions.content">
+          <td>{{transaction.date}}</td>
+          <td>{{transaction.name}}</td>
+          <td>
+              <span *ngIf="transaction.isRecurring == 1" class="badge badge-primary">recurring</span>
+              <span class="badge badge-info" *ngIf="transaction.category != 'overigeUitgaven'">{{transaction.category}}</span>
+              <span class="badge badge-info" *ngIf="transaction.category == 'overigeUitgaven'">overige</span>
+          </td>
+          <td>{{transaction.amount}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

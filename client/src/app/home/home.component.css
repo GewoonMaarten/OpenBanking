@@ -1,0 +1,85 @@
+.content {
+    height: 100%;
+    width: 100%;
+
+    padding: 0 180px;
+
+    background-color: #d9d8d9;
+}
+
+.iban {
+    color: grey;
+    font-size: 12px;
+}
+
+.btn-primary {
+    background-color: white;
+    border-color: white;
+    color: black;
+    font-family: ubuntu-regular;
+}
+
+.btn-primary:not(:disabled):not(.disabled).active, 
+.btn-primary:not(:disabled):not(.disabled):active, 
+.show > .btn-primary.dropdown-toggle {
+    color: black;
+    background-color: white;
+    border-color: white;
+    font-family: ubuntu-regular;
+}
+
+.btn-primary:not(:disabled):not(.disabled).active:focus, .btn-primary:not(:disabled):not(.disabled):active:focus, .show > .btn-primary.dropdown-toggle:focus {
+
+    box-shadow: 0 0 0 .2rem rgba(0, 0, 0,.5);
+
+}
+
+.btn-primary.focus, .btn-primary:focus {
+
+    box-shadow: 0 0 0 .2rem rgba(0, 0, 0, 0.5);
+
+}
+
+.content .container {
+    margin: 0;
+}
+
+.content .row:nth-child(2) .col-md-6:nth-child(1) {
+    height: inherit;
+    color: #fffeff;
+    background-color: #b2b6bb;
+}
+
+.content .row:nth-child(2) .col-md-6:nth-child(2) {
+    height: inherit;
+    color: #fffeff;
+    background-color: #888b8f;
+}
+
+#real-time {
+    color: #888b8f;
+}
+
+#real-time>fa-icon {
+    font-size: 36px;
+    margin-right: 10px;
+}
+
+#real-time>span {
+    font-family: ubuntu-bold;
+    font-size: 18px;
+}
+
+#expected {
+    color: #b2b6bb;
+}
+
+#expected>fa-icon {
+    font-size: 36px;
+    margin-right: 10px;
+}
+
+#expected>span {
+    font-family: ubuntu-bold;
+    font-size: 18px;
+}

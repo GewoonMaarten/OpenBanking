@@ -1,8 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~bootstrap/dist/css/bootstrap.min.css';
 
+@font-face {
+    font-family: ubuntu-regular;
+    src: url("assets/font/Ubuntu-Regular.ttf")
+}
+
+@font-face {
+    font-family: ubuntu-bold;
+    src: url("assets/font/Ubuntu-Bold.ttf")
+}
+
+* {
+    font-family: ubuntu-regular;
+}
+
 body, html {
     height: 100%;
     width: 100%;
     margin: 0;
+
+    background-color: #d9d8d9;
 }

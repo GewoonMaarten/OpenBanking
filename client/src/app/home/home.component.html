@@ -1,0 +1,133 @@
+<app-navbar></app-navbar>
+
+<div class="content" *ngIf="bankAccount != null">
+
+    <div class="row align-items-center">
+      <div class="col-md-2">
+        <p>Je bent hier: <b>Overzicht</b></p>
+      </div>
+
+      <div class="col-md-3 offset-md-4">
+
+        Bankrekening:
+
+        <div class="btn-group">
+            <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {{bankAccounts[0].product}}
+            </button>
+            <div class="dropdown-menu">
+              <a 
+                class="dropdown-item" 
+                *ngFor="let bankAccount of bankAccounts" 
+
+                (click)="setBankAccount(bankAccount)">
+                {{bankAccount.product}} <br />
+                <span class="iban">{{bankAccount.iban}}</span>
+              </a>
+            </div>
+          </div>
+      </div>
+
+      <div class="col-md-3">
+
+        <div class="row">
+
+          <div class="col">
+            Periode: 
+          </div>
+
+          <div class="col">
+            <div class="btn-group">
+              <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{month}}
+              </button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" *ngFor="let month of months" (click)="setMonth(month.id)">{{month.name}}</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="btn-group">
+              <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{year}}
+              </button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" *ngFor="let year of years" (click)="setYear(year)">{{year}}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>   
+    </div>
+  
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-3 align-self-center" id="real-time">
+                <fa-icon icon="clock"></fa-icon>
+                <span>Real-time</span>
+            </div>
+            <div class="col">
+              <div class="row"><div class="col">Saldo: </div></div>
+              <div class="row"><div class="col">&euro;{{bankAccount.balance}}</div></div>  
+            </div>
+
+            <div class="col">
+              <div class="row"><div class="col">Balans: </div></div>
+              <div class="row"><div class="col">&euro;{{bankAccount.balancechange}}</div></div>     
+            </div>
+        </div>        
+      </div>
+
+      <div class="col-md-6">
+
+          <div class="row">
+              <div class="col-md-3" id="expected">
+                  <fa-icon icon="forward"></fa-icon>
+                  <span>Verwacht eind deze maand</span>
+              </div>
+
+              <div class="col">
+                <div class="row"><div class="col">Saldo: </div></div>
+                <div class="row"><div class="col">&euro;{{bankAccount.predictedBalance}}</div></div>  
+              </div>
+  
+              <div class="col">
+                <div class="row"><div class="col">Balans: </div></div>
+                <div class="row"><div class="col">
+                  <span *ngIf="bankAccount.predictedBalanceChange >= 0">+</span>&euro;{{bankAccount.predictedBalanceChange}}
+                </div></div>     
+              </div>
+
+          </div>      
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col"></div>
+      <div class="col">
+        <div class="row"></div>
+        <div class="row"></div>
+      </div>
+    </div>
+
+  <!-- <div *ngIf="bankAccount != null">
+    </div>
+    
+    <div class="row">
+      <div class="col-md-6">
+        <app-transaction-table></app-transaction-table>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col"></div>
+        </div>
+        <div class="row">
+            <div class="col"></div>
+          </div>
+      </div>
+    </div> -->
+
+</div>

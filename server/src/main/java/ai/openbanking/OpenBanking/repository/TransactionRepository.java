@@ -18,7 +18,15 @@ public interface TransactionRepository extends PagingAndSortingRepository<Transa
     Optional<List<Transaction>> findByBankAccount_Id(Integer id);
     Optional<Page<Transaction>> findByBankAccount_IdAndCategory(Pageable pageable, Integer id, Category category);
     Optional<Iterable<Transaction>> findByBankAccount_IdAndCategory(Integer id, Category category);
-    Optional<Iterable<Transaction>> findByBankAccount_IdAndCategoryAndDateBetween(Integer id, Category category, LocalDate dateStart, LocalDate dateEnd);
-    Optional<Page<Transaction>> findByBankAccount_IdAndIsRecurring(Pageable pageable, Integer id, String isRecurring);
-
+    Optional<Iterable<Transaction>> findByBankAccount_IdAndCategoryAndDateBetween(
+            Integer id,
+            Category category,
+            LocalDate dateStart,
+            LocalDate dateEnd);
+    Optional<Iterable<Transaction>> findByBankAccount_IdAndCategoryAndIsRecurringAndDateBetween(
+            Integer id,
+            Category category,
+            Boolean isRecurring,
+            LocalDate dateStart,
+            LocalDate dateEnd);
 }

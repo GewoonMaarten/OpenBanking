@@ -13,9 +13,12 @@ public class BankAccount {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String iban;
+    private Double balance;
 
     @ManyToOne()
     @JoinColumn(name = "user", nullable = false)
     private User user;
+
+    private String product;
 
 }

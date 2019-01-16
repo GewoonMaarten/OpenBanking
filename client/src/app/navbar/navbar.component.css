@@ -1,0 +1,19 @@
+fa-icon {
+    color: #a22b5f;
+}
+
+nav {
+    height: 70px;
+    width: 100%;
+
+    background-color: #3a425a;
+    color: #fffeff;
+
+    padding: 10px 180px;
+}
+
+a.disabled, a.disabled:hover {
+    color: gray;
+    cursor: not-allowed;
+    text-decoration: none;
+}

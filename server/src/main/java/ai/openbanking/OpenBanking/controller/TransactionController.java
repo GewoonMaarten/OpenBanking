@@ -53,6 +53,7 @@ public class TransactionController {
     Page<Transaction> outliers(Pageable pageable,
                                @RequestParam double threshold,
                                @RequestParam int bankAccountId,
+                               @RequestParam Optional<Boolean> isRecurring,
                                @RequestParam Optional<Category> category,
                                @RequestParam @DateTimeFormat(pattern="dd/MM/yyyy") Optional<LocalDate> dateStart,
                                @RequestParam @DateTimeFormat(pattern="dd/MM/yyyy") Optional<LocalDate> dateEnd) {
@@ -75,6 +76,15 @@ public class TransactionController {
             transactionIterable = repository.findByBankAccount_IdAndCategory(bankAccountId, category.get())
                     .orElseThrow(() -> new TransactionNotFoundException(category.get().getLabel()));
 
+        } else if (category.isPresent() && isRecurring.isPresent() && dateStart.isPresent() && dateEnd.isPresent()) {
+            transactionIterable = repository
+                    .findByBankAccount_IdAndCategoryAndIsRecurringAndDateBetween(
+                    bankAccountId,
+                    category.get(),
+                    isRecurring.get(),
+                    dateStart.get(),
+                    dateEnd.get())
+                    .orElseThrow(() -> new TransactionNotFoundException(category.get().getLabel()));
         } else {
             transactionIterable = repository.findByBankAccount_Id(bankAccountId)
                     .orElseThrow(() -> new BankAccountNotFoundException(bankAccountId));

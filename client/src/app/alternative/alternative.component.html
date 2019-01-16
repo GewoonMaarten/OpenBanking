@@ -1,0 +1,95 @@
+<app-navbar></app-navbar>
+
+
+
+<div class="content">
+
+
+  <div class="row">
+    <div class="col">
+      <h2 class="title">Besparen</h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col subscription" *ngFor="let subscription of phoneSubscriptions.content">
+
+      <div class="row">
+        <div class="col provider align-center">{{subscription.provider}}</div>
+      </div>
+
+      <div class="row">
+        <div class="col">Belminuten</div>
+        <div class="col align-end">
+          <span *ngIf="subscription.minutes == -1">Onbeperkt</span>
+          <span *ngIf="subscription.minutes >= 0">{{subscription.minutes}}</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col"><hr /></div>
+      </div>
+
+      <div class="row">
+        <div class="col">Aantal sms</div>
+        <div class="col align-end">
+          <span *ngIf="subscription.sms == -1">Onbeperkt</span>
+          <span *ngIf="subscription.sms >= 0">{{subscription.sms}}</span>
+        </div>
+      </div>
+
+      <div class="row">
+          <div class="col"><hr /></div>
+        </div>
+
+      <div class="row">
+        <div class="col">Internet(4G)</div>
+        <div class="col align-end">
+          <span *ngIf="subscription.internetGB == -1">Onbeperkt</span>
+          <span *ngIf="subscription.internetGB >= 0 ">{{subscription.internetGB}}</span>
+        </div>
+      </div>
+
+      <div class="row">
+          <div class="col"><hr /></div>
+        </div>
+
+      <div class="row">
+        <div class="col">Contractsduur</div>
+        <div class="col align-end">
+          {{subscription.renewableAfter}}
+          <span *ngIf="subscription.renewableAfter > 1">maanden</span>
+          <span *ngIf="subscription.renewableAfter == 1">maand</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col"><hr /></div>
+      </div>
+
+      <div class="row">
+        <div class="col">Klanten korting</div>
+        <div class="col align-end">
+          <span *ngIf="subscription.discount">Ja</span>
+          <span *ngIf="!subscription.discount">Nee</span>
+        </div>
+      </div>
+
+      <div class="row">
+          <div class="col"><hr /></div>
+        </div>
+
+      <div class="row">
+        <div class="col price align-center">
+            &euro;{{subscription.price}},- per maand
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <button type="button" class="btn btn-primary btn-block btn-subscription">Kies dit pakket</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

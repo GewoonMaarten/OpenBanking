@@ -36,12 +36,12 @@ public class    Transaction {
     private Category category;
 
     @Column(name = "is_recurring")
-    private String isRecurring;
+    private Boolean isRecurring;
 
-//    @ManyToOne
-//    @Column(name = "phone_subscription")
-//    @JsonBackReference
-//    private PhoneSubscription phoneSubscription;
+    @ManyToOne
+    @JoinColumn(name = "phone_subscription")
+    @JsonBackReference
+    private PhoneSubscription phoneSubscription;
 
     @Transient
     @JsonIgnore

@@ -22,11 +22,7 @@ export class BankAccountService {
         });
     }
 
-    getBankAccount (bankAccountId: number): BankAccount{
-
-
-        var date = new Date();
-        date.setFullYear(2018);
+    getBankAccount (bankAccountId: number, date: Date): BankAccount{
 
         const day = ("0" + date.getDate()).slice(-2);
         const month = ("0" + (date.getMonth() + 1)).slice(-2);

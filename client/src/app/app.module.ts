@@ -15,7 +15,7 @@ import { AppRoutingModule } from "./app-routing.module";
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faSignOutAlt, faUser, faForward, faClock } from "@fortawesome/free-solid-svg-icons";
+import { faSignOutAlt, faUser, faForward, faClock, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { AlternativeComponent } from './alternative/alternative.component';
 //import { faClock } from "@fortawesome/free-regular-svg-icons";
 
@@ -48,7 +48,8 @@ export class AppModule {
       faSignOutAlt,
       faUser,
       faClock,
-      faForward
+      faForward,
+      faInfoCircle
     )
   }
 }

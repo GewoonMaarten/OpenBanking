@@ -58,37 +58,36 @@ export class HomeComponent implements OnInit {
   
     this.route.queryParams.subscribe(params => {
 
-      console.log(params['date'])
-
       this.queryParams.userId = params['userId'] || 1;
       this.queryParams.bankAccountId = params['bankAccountId'] || 1;
-      this.queryParams.date = new Date(params['date'] || new Date().getTime());
 
+      let date = params['date'] || null;
 
-      let date = <Date> this.queryParams.date;
+      if(date) {
+        let parts = date.split('/');
+        date = new Date(parts[2], parts[1] - 1, parts[0]);
+      } else {
+        date = new Date();
+      }
 
-      console.log(date);
+      this.queryParams.date = date;
 
       this.month = this.months.filter(month => {
-
-        console.log(month.id);
-        console.log(date.getMonth());
-
-        month.id == date.getMonth();
+        return month.id == date.getMonth();
       })[0].name;
-      this.year = date.getFullYear(); 
 
-      console.log(+params['date'])
+      this.year = date.getFullYear(); 
 
       this.bankAccountService.getBankAccountsByUser(this.queryParams.userId)
       .subscribe(bankAccounts => {
         this.bankAccounts = bankAccounts;
       });
 
-      this.bankAccount = this.bankAccountService.getBankAccount(this.queryParams.bankAccountId);
+      this.bankAccount = this.bankAccountService.getBankAccount(this.queryParams.bankAccountId,  this.queryParams.date);
 
       let dateEnd = <Date> this.queryParams.date;
       let dateStart = new Date(dateEnd.getTime());
+
       dateStart.setMonth(dateEnd.getMonth() - 3);
 
       this.outlierService.getOutlier(

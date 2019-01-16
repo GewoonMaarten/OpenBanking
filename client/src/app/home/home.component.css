@@ -1,10 +1,5 @@
 .content {
-    height: 100%;
-    width: 100%;
-
-    padding: 0 180px;
-
-    background-color: #d9d8d9;
+     padding: 0 180px;
 }
 
 .iban {
@@ -44,42 +39,64 @@
     margin: 0;
 }
 
-.content .row:nth-child(2) .col-md-6:nth-child(1) {
-    height: inherit;
-    color: #fffeff;
-    background-color: #b2b6bb;
+
+
+#real-time-title {
+    color: #888b8f;
+    display: grid;  
+    grid-template-columns: 50px auto;
 }
 
-.content .row:nth-child(2) .col-md-6:nth-child(2) {
-    height: inherit;
+#real-time-title>fa-icon {
+    font-size: 36px;
+    margin-right: 10px;
+}
+
+#real-time-title>span {
+    font-family: ubuntu-bold;
+    font-size: 18px;
+    align-self: center;
+}
+
+#expected-title {
+    color: #b2b6bb;
+    display: grid;  
+    grid-template-columns: auto auto;
+}
+
+#expected-title>fa-icon {
+    font-size: 36px;
+    margin-right: 10px;
+}
+
+#expected-title>span {
+    font-family: ubuntu-bold;
+    font-size: 18px;
+}
+
+.btn-bar {
+    margin: 20px 0;
+}
+
+.balance-bar {
     color: #fffeff;
     background-color: #888b8f;
+    margin: 0 5px;
 }
 
-#real-time {
-    color: #888b8f;
+.balance-bar>.current {
+    background-color: #b2b6bb;
+    clip-path: polygon(0 0, 100% 0, 93% 100%, 0% 100%);
 }
 
-#real-time>fa-icon {
-    font-size: 36px;
-    margin-right: 10px;
+.balance-bar>.current>.row {
+    padding: 15px;
 }
 
-#real-time>span {
+.balance-bar>.expected>.row>div {
+    padding: 15px;
+}
+
+.number {
     font-family: ubuntu-bold;
-    font-size: 18px;
-}
-
-#expected {
-    color: #b2b6bb;
-}
-
-#expected>fa-icon {
-    font-size: 36px;
-    margin-right: 10px;
-}
-
-#expected>span {
-    font-family: ubuntu-bold;
-    font-size: 18px;
 }

@@ -10,13 +10,15 @@ import { DebugComponent } from './debug/debug.component';
 import { HomeComponent } from './home/home.component';
 import { TransactionTableComponent } from './transaction-table/transaction-table.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { AlternativeComponent } from './alternative/alternative.component';
+import { PhoneModalComponent } from './phone-modal/phone-modal.component';
 
 import { AppRoutingModule } from "./app-routing.module";
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faSignOutAlt, faUser, faForward, faClock, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
-import { AlternativeComponent } from './alternative/alternative.component';
+
 //import { faClock } from "@fortawesome/free-regular-svg-icons";
 
 
@@ -29,7 +31,8 @@ import { AlternativeComponent } from './alternative/alternative.component';
     HomeComponent,
     TransactionTableComponent,
     NavbarComponent,
-    AlternativeComponent
+    AlternativeComponent,
+    PhoneModalComponent
   ],
   imports: [
     BrowserModule,

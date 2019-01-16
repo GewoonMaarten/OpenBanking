@@ -4,6 +4,8 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { BankAccount } from '../model/bankAccount.model';
 import { BankAccountService } from "../service/bankAccount.service";
 import { OutlierService } from '../service/outlier.service';
+import { Transaction } from '../model/transaction.model';
+import { PhoneModalService } from '../service/phoneModal.service';
 
 @Component({
   selector: 'app-home',
@@ -46,17 +48,22 @@ export class HomeComponent implements OnInit {
   month: string;
   year: number;
 
+  elevatedRecurringTransactions: Transaction[] = [];
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private bankAccountService: BankAccountService,
-    private outlierService: OutlierService
+    private outlierService: OutlierService,
+    private phoneModalService: PhoneModalService
   ) { }
 
   ngOnInit() {
 
   
     this.route.queryParams.subscribe(params => {
+
+      this.elevatedRecurringTransactions = [];
 
       this.queryParams.userId = params['userId'] || 1;
       this.queryParams.bankAccountId = params['bankAccountId'] || 1;
@@ -96,8 +103,13 @@ export class HomeComponent implements OnInit {
         "telecom",
         dateStart,
         dateEnd,
-        1
-      ).subscribe(console.log);
+        .5
+      ).subscribe(data => {
+        this.elevatedRecurringTransactions.push.apply(
+          this.elevatedRecurringTransactions,
+          data.content
+        ); 
+      });
     });
     
   }
@@ -130,7 +142,11 @@ export class HomeComponent implements OnInit {
     };
     this.router.navigate(['/home'], navigationExtras);
   }
-
+  
+  openModal() {
+    console.log("Toggled!");
+    this.phoneModalService.toggle();
+  }
 
   private dateToString(date: Date): string {
     const day = ("0" + date.getDate()).slice(-2);

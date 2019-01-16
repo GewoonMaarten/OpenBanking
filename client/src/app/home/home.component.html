@@ -3,11 +3,11 @@
 <div class="content" *ngIf="bankAccount != null">
 
     <div class="row btn-bar">
-      <div class="col-md-3">
+      <div class="col-3">
         <p>Je bent hier: <b>Overzicht</b></p>
       </div>
 
-      <div class="col-md-4 offset-md-1">
+      <div class="col-4 offset-1">
 
         Bankrekening:
 
@@ -28,7 +28,7 @@
           </div>
       </div>
 
-      <div class="col-md-4">
+      <div class="col-4">
 
         <div class="row">
 
@@ -67,24 +67,24 @@
     <div class="row balance-bar">
       <div class="col current">
         <div class="row">
-          <div class="col-md-5" id="real-time-title">
+          <div class="col-5" id="real-time-title">
               <fa-icon icon="clock"></fa-icon>
               <span>Real-time</span>
           </div>
           <div class="col">
             <div class="row"><div class="col">Saldo: <sup><fa-icon icon="info-circle"></fa-icon></sup></div></div>
-            <div class="row"><div class="col number">&euro;{{bankAccount.balance}}</div></div>  
+            <div class="row"><div class="col number">&euro;{{bankAccount.balance | number:'1.2-2'}}</div></div>  
           </div>
 
           <div class="col">
             <div class="row"><div class="col">Balans: <sup><fa-icon icon="info-circle"></fa-icon></sup></div></div>
-            <div class="row"><div class="col number">&euro;{{bankAccount.balancechange}}</div></div>     
+            <div class="row"><div class="col number">&euro;{{bankAccount.balancechange | number:'1.2-2'}}</div></div>     
           </div>
         </div>
       </div>
       <div class="col expected">
         <div class="row">
-          <div class="col-md-5" id="expected-title">
+          <div class="col-5" id="expected-title">
               <fa-icon icon="forward"></fa-icon>
               <span>Verwacht eind deze maand</span>
           </div>
@@ -104,66 +104,56 @@
       </div>
     </div>
 
-  
-    <!-- <div class="row">
-      <div class="col-md-6">
-        <div class="row">
-            <div class="col-md-3 align-self-center" id="real-time">
-                <fa-icon icon="clock"></fa-icon>
-                <span>Real-time</span>
-            </div>
-            <div class="col">
-              <div class="row"><div class="col">Saldo: </div></div>
-              <div class="row"><div class="col">&euro;{{bankAccount.balance}}</div></div>  
-            </div>
-
-            <div class="col">
-              <div class="row"><div class="col">Balans: </div></div>
-              <div class="row"><div class="col">&euro;{{bankAccount.balancechange}}</div></div>     
-            </div>
-        </div>        
-      </div>
-
-      <div class="col-md-6">
-
-          <div class="row">
-              <div class="col-md-3" id="expected">
-                  <fa-icon icon="forward"></fa-icon>
-                  <span>Verwacht eind deze maand</span>
-              </div>
-
-              <div class="col">
-                <div class="row"><div class="col">Saldo: </div></div>
-                <div class="row"><div class="col">&euro;{{bankAccount.predictedBalance}}</div></div>  
-              </div>
-  
-              <div class="col">
-                <div class="row"><div class="col">Balans: </div></div>
-                <div class="row"><div class="col">
-                  <span *ngIf="bankAccount.predictedBalanceChange >= 0">+</span>&euro;{{bankAccount.predictedBalanceChange}}
-                </div></div>     
-              </div>
-
-          </div>      
-      </div>
-    </div> -->
-
     <div class="row">
-      <div class="col"></div>
       <div class="col">
-        <div class="row"></div>
-        <div class="row"></div>
+
+      </div>
+      <div class="col">
+        <div class="row">
+          <div class="col elevated-transaction">
+            <div class="row"><div class="col"><h5>Vaste lasten hoger dan normaal</h5></div></div>
+
+            <div class="row" *ngIf="elevatedRecurringTransactions?.length == 0">
+              <div class="col">Geen abnormale transacties</div>
+            </div>
+
+            <ng-container
+              *ngFor="let transaction of elevatedRecurringTransactions">
+              <div class="row">
+                <div class="col">{{transaction.name}}</div>
+                <div class="col">&euro;{{transaction.amount}}</div>
+                <div class="col">
+                    <button type="button" class="btn btn-primary" (click)="openModal()">Besparen</button>
+                </div>  
+              </div>
+              <div class="row">
+                <div class="col">
+                  <hr />
+                </div>
+              </div>
+            </ng-container>
+            
+          </div>
+        </div>
+        <div class="row">
+          <div class="col elevated-transaction">
+            <div class="row"><div class="col"><h5>Overige uitgaven hoger dan normaal</h5></div></div>
+          </div>
+        </div>
       </div>
     </div>
+
+
+
 
   <!-- <div *ngIf="bankAccount != null">
     </div>
     
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-6">
         <app-transaction-table></app-transaction-table>
       </div>
-      <div class="col-md-6">
+      <div class="col-6">
         <div class="row">
           <div class="col"></div>
         </div>
@@ -174,3 +164,8 @@
     </div> -->
 
 </div>
+
+
+
+
+<app-phone-modal></app-phone-modal>

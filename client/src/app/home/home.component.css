@@ -100,3 +100,14 @@
 .number {
     font-family: ubuntu-bold;
 }
+
+.elevated-transaction {
+    background-color: #f3f2f3;
+    margin: 15px 20px 0 5px;
+    padding: 40px 35px;
+}
+
+.elevated-transaction h5 {
+    font-family: ubuntu-bold;
+    font-size: 20px;
+}

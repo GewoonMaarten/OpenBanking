@@ -112,6 +112,10 @@
     font-size: 20px;
 }
 
+.elevated-transaction {
+    padding: 20px;
+}
+
 .elevated-transaction:nth-child(even) {
-    background-color: #b2b6bb;
+    background-color: #e0e0e0;
 }

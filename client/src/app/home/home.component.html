@@ -105,10 +105,10 @@
       <div class="col">
         <div class="row">
           <div class="col elevated-transactions">
-            <div class="row"><div class="col"><h5>Vaste lasten hoger dan normaal</h5></div></div>
+            <div class="row"><div class="col"><h5>Vaste lasten gemiddeld hoger dan het abonnement</h5></div></div>
 
             <div class="row" *ngIf="elevatedRecurringTransactions?.length == 0">
-              <div class="col">Geen abnormale transacties</div>
+              <div class="col">Geen abnormale transacties gevonden </div>
             </div>
 
             <ng-container
@@ -130,11 +130,6 @@
                         <button type="button" class="btn btn-primary" (click)="openModal()">Besparen</button>
                     </div>  
                   </div>
-                  <div class="row">
-                    <div class="col">
-                      <hr />
-                    </div>
-                  </div>
               </div>  
             </ng-container>    
           </div>
@@ -142,7 +137,33 @@
         <div class="row">
           <div class="col elevated-transactions">
             <div class="row"><div class="col"><h5>Overige uitgaven hoger dan normaal</h5></div></div>
-          </div>
+
+
+            <div class="row" *ngIf="elevatedOtherTransactions?.length == 0">
+                <div class="col">Geen abnormale transacties gevonden </div>
+              </div>
+  
+              <ng-container
+                *ngFor="let transaction of elevatedOtherTransactions">
+                <div class="elevated-transaction">
+                  <div class="row">
+                      <div class="col text-truncate">
+  
+                        <div class="row">
+                          <div class="col">{{transaction.name}}</div>
+                        </div>
+                        <div class="row">
+                          <div class="col">{{transaction.category}}</div>
+                        </div>
+                        
+                      </div>
+                      <div class="col"><span class="float-right">
+                        &euro;{{transaction.amount}}
+                      </span></div>
+                    </div>
+                </div>  
+              </ng-container>    
+            </div>
         </div>
       </div>
     </div>

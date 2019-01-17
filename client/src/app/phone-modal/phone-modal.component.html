@@ -3,7 +3,9 @@
 </div>
 <div class="phone-modal" [class.hidden]="hidden">
     <div class="container">
-      <div class="row">Kies jou huidige mobiel abonnement.</div>
+      <div class="row">
+        <h1 class="title">Kies je huidige mobiel abonnement.</h1>
+      </div>
       <form *ngIf="phoneSubscriptions != null" [formGroup]="phonesubscriptionform" (ngSubmit)="onSubmit()">
         <div 
           *ngFor="let subscription of phoneSubscriptions" 

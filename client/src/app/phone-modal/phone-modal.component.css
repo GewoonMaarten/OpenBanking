@@ -27,9 +27,11 @@
 .hidden {
     display: none;
 }
-
-
-
+.title {
+    padding: 20px 20px 0;
+    font-size: 18px;
+    font-family: ubuntu-bold;
+}
 .subscription {
     cursor: pointer;
     margin: 30px 5px;

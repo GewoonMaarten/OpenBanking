@@ -49,6 +49,7 @@ export class HomeComponent implements OnInit {
   year: number;
 
   elevatedRecurringTransactions: Transaction[] = [];
+  elevatedOtherTransactions: Transaction[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -66,6 +67,7 @@ export class HomeComponent implements OnInit {
       this.phoneModalService.close();
 
       this.elevatedRecurringTransactions = [];
+      this.elevatedOtherTransactions = [];
 
       this.queryParams.userId = params['userId'] || 1;
       this.queryParams.bankAccountId = params['bankAccountId'] || 1;
@@ -101,16 +103,25 @@ export class HomeComponent implements OnInit {
 
       this.outlierService.getOutlier(
         this.queryParams.bankAccountId,
+        false,
+        "overigeUitgaven",
+        dateStart,
+        dateEnd,
+        .5
+      ).subscribe(data => {
+        this.elevatedOtherTransactions = data.content;
+      });
+
+
+      this.outlierService.getOutlier(
+        this.queryParams.bankAccountId,
         true,
         "telecom",
         dateStart,
         dateEnd,
         .5
       ).subscribe(data => {
-        this.elevatedRecurringTransactions.push.apply(
-          this.elevatedRecurringTransactions,
-          data.content
-        ); 
+        this.elevatedRecurringTransactions = data.content;
       });
     });
     

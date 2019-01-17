@@ -1,3 +1,103 @@
-<div class="phone-modal" [class.hidden]="status">
-  test
+
+<div class="overlay" [class.hidden]="hidden" (click)="close()">
 </div>
+<div class="phone-modal" [class.hidden]="hidden">
+    <div class="container">
+      <div class="row">Kies jou huidige mobiel abonnement.</div>
+      <form *ngIf="phoneSubscriptions != null" [formGroup]="phonesubscriptionform" (ngSubmit)="onSubmit()">
+        <div 
+          *ngFor="let subscription of phoneSubscriptions" 
+          class="row subscription" 
+          (click)="setSubscription(subscription)"
+          [class.highlight]="selectedId == subscription.id">
+          <div class="col">
+            <div class="row">
+              <div class="col">{{subscription.provider}}</div>
+            </div>
+            <div class="row">
+              <div class="col">minuten: {{subscription.minutes}}</div>
+              <div class="col">sms: {{subscription.sms}}</div>
+              <div class="col">internet: {{subscription.internetGB}}GB</div>
+            </div>
+            <div class="row">
+              <div class="col">
+                &euro;{{subscription.price}} per maand
+              </div>
+            </div>
+          </div>          
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="row">
+              <div class="col">Ik wil: </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-check">
+                  <input 
+                    class="form-check-input" 
+                    type="radio"
+                     name="preference"
+                     id="preference-internet"
+                     value="internet"
+                     formControlName="preference"
+                     checked>
+                  <label class="form-check-label" for="preference-internet">
+                    Meer Internet
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-check">
+                  <input 
+                    class="form-check-input" 
+                    type="radio" 
+                    name="preference"
+                    id="preference-sms"
+                    value="sms"
+                    formControlName="preference">
+                  <label class="form-check-label" for="preference-sms">
+                    Meer SMS'jes
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-check">
+                  <input 
+                    class="form-check-input" 
+                    type="radio" 
+                    name="preference"
+                    id="preference-minutes"
+                    value="minutes"
+                    formControlName="preference">
+                  <label class="form-check-label" for="preference-minutes">
+                    Meer belminuten
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="btn-group float-right" role="group">
+              <button type="button" class="btn btn-primary" (click)="close()">
+                Close
+              </button>
+              <button 
+                type="submit" 
+                class="btn btn-primary" 
+                [disabled]="!phonesubscriptionform.valid">
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>

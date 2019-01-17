@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 
 import { Page } from '../model/Page.model';
 import { PhoneSubscription } from '../model/phoneSubscription.model';
+import { Transaction } from '../model/transaction.model';
 
 @Injectable({
     providedIn: 'root'
@@ -16,6 +17,14 @@ export class AlternativeService {
     constructor(
         private http: HttpClient
     ){}
+
+    getCurrentPhoneSubscription(bankAccountId: number): Observable<PhoneSubscription[]> {
+        return this.http.get<PhoneSubscription[]>(this.baseUrl + '/phone/byBankAccount', {
+            params: {
+                bankAccountId: bankAccountId.toString()
+            }
+        })
+    }
 
     getAlternative(
         size: number, 

@@ -86,7 +86,7 @@
 
 .balance-bar>.current {
     background-color: #b2b6bb;
-    clip-path: polygon(0 0, 100% 0, 93% 100%, 0% 100%);
+    clip-path: polygon(0 0, 100% 0, 96% 100%, 0% 100%);
 }
 
 .balance-bar>.current>.row {

@@ -6,17 +6,23 @@ import { Observable, BehaviorSubject } from 'rxjs';
 })
 export class PhoneModalService {
 
-  private status: BehaviorSubject<boolean> = new BehaviorSubject(true);
+  private hidden: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
   constructor(){ }
 
   toggle() {
-    console.log(this.status.getValue());
-
-    this.status.next(!this.status.getValue());
+    this.hidden.next(!this.hidden.getValue());
   }
 
-  getStatus(): BehaviorSubject<boolean> {
-    return this.status;
+  getSubject(): BehaviorSubject<boolean> {
+    return this.hidden;
+  }
+
+  open() {
+    this.hidden.next(false);
+  }
+
+  close() {
+    this.hidden.next(true);
   }
 }

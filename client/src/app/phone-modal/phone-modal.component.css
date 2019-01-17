@@ -1,4 +1,4 @@
-.phone-modal {
+.overlay {
     position: fixed;
     left: 0;
     right: 0;
@@ -7,11 +7,40 @@
     margin: auto;
     z-index: 1000;
 
-    height: 100px;
-    width: 100px;
-    background-color: black;
+    background-color: rgba(0, 0, 0, .3); 
+}
+
+.phone-modal {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    margin: auto;
+    z-index: 1001;
+
+    height: 500px;
+    width: 460px;
+    background-color: #f3f2f3;
 }
 
 .hidden {
     display: none;
+}
+
+
+
+.subscription {
+    cursor: pointer;
+    margin: 30px 5px;
+    color: white;
+    background-color: #3a425a;
+}
+
+.subscription:hover {
+    background-color: #a22b5f;
+}
+
+.highlight {
+    background-color: #a22b5f;
 }

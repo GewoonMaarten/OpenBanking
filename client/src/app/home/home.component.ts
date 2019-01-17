@@ -63,6 +63,8 @@ export class HomeComponent implements OnInit {
   
     this.route.queryParams.subscribe(params => {
 
+      this.phoneModalService.close();
+
       this.elevatedRecurringTransactions = [];
 
       this.queryParams.userId = params['userId'] || 1;

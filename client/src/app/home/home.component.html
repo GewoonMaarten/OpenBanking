@@ -7,7 +7,7 @@
         <p>Je bent hier: <b>Overzicht</b></p>
       </div>
 
-      <div class="col-4 offset-1">
+      <div class="col-4 offset-2">
 
         Bankrekening:
 
@@ -27,38 +27,32 @@
             </div>
           </div>
       </div>
-
-      <div class="col-4">
-
+      <div class="col-3">
         <div class="row">
-
           <div class="col">
-            Periode: 
-          </div>
-
-          <div class="col">
-            <div class="btn-group">
-              <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{month}}
-              </button>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" *ngFor="let month of months" (click)="setMonth(month.id)">{{month.name}}</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col">
-            <div class="btn-group">
-              <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{year}}
-              </button>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" *ngFor="let year of years" (click)="setYear(year)">{{year}}</a>
+            <div class="float-right">
+              <span >Periode: </span>
+              <div class="btn-group">
+                <div class="btn-group">
+                  <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{month}}
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" *ngFor="let month of months" (click)="setMonth(month.id)">{{month.name}}</a>
+                  </div>
+                </div>
+                <div class="btn-group">
+                  <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{year}}
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" *ngFor="let year of years" (click)="setYear(year)">{{year}}</a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        
       </div>   
     </div>
 
@@ -120,8 +114,16 @@
             <ng-container
               *ngFor="let transaction of elevatedRecurringTransactions">
               <div class="row">
-                <div class="col">{{transaction.name}}</div>
-                <div class="col">&euro;{{transaction.amount}}</div>
+                <div class="col text-truncate">{{transaction.name}}</div>
+                <div class="col">
+                  
+                  <div class="row">
+                    <div class="col">&euro;{{transaction.amount}}</div>
+                  </div>
+                  <div class="row">
+                    <div class="col">{{transaction.category}}</div>
+                  </div>
+                </div>
                 <div class="col">
                     <button type="button" class="btn btn-primary" (click)="openModal()">Besparen</button>
                 </div>  

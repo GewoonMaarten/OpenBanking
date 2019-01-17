@@ -101,13 +101,17 @@
     font-family: ubuntu-bold;
 }
 
-.elevated-transaction {
+.elevated-transactions {
     background-color: #f3f2f3;
     margin: 15px 20px 0 5px;
     padding: 40px 35px;
 }
 
-.elevated-transaction h5 {
+.elevated-transactions h5 {
     font-family: ubuntu-bold;
     font-size: 20px;
+}
+
+.elevated-transaction:nth-child(even) {
+    background-color: #b2b6bb;
 }

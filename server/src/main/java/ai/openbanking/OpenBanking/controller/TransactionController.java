@@ -35,12 +35,15 @@ public class TransactionController {
     Page<Transaction> all(
             Pageable pageable,
             @RequestParam Integer bankAccountId,
-            @RequestParam Optional<Category> category) {
+            @RequestParam Optional<Category> category,
+            @RequestParam @DateTimeFormat(pattern="dd/MM/yyyy") Optional<LocalDate> date) {
 
         return category.map(category1 -> repository.findByBankAccount_IdAndCategory(pageable, bankAccountId, category1)
                 .orElseThrow(() -> new BankAccountNotFoundException(bankAccountId)))
-                .orElseGet(() -> repository.findByBankAccount_Id(pageable, bankAccountId)
-                .orElseThrow(() -> new BankAccountNotFoundException(bankAccountId)));
+                    .orElseGet(() -> date.map(localDate -> repository.findByBankAccount_IdAndDateBefore(pageable, bankAccountId, localDate)
+                .orElseThrow(() -> new BankAccountNotFoundException(bankAccountId)))
+                        .orElseGet(() -> repository.findByBankAccount_Id(pageable, bankAccountId)
+                .orElseThrow(() -> new BankAccountNotFoundException(bankAccountId))));
     }
 
     @GetMapping("{id}")

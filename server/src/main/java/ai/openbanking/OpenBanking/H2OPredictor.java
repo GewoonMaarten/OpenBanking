@@ -110,7 +110,7 @@ public class H2OPredictor {
             RowData rowData = transaction.toRowData();
 
             BinomialModelPrediction prediction = model.predictBinomial(rowData);
-            transaction.setIsRecurring(prediction.label);
+            transaction.setIsRecurring(Boolean.valueOf(prediction.label));
 
         } catch (PredictException e) {
             e.printStackTrace();

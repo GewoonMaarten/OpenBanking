@@ -3,7 +3,7 @@ export class Transaction {
   id: number;
   amount: number;
   name: string;
-  date: Date;
+  date: string;
   isRecurring: string;
   category: string;
 }

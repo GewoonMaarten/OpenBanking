@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 
-<div class="content" *ngIf="bankAccount != null">
+<div class="content" *ngIf="bankAccount != null && bankAccounts != null">
 
     <div class="row btn-bar">
       <div class="col-3">
@@ -100,11 +100,11 @@
 
     <div class="row">
       <div class="col">
-
+          <app-transaction-table></app-transaction-table>
       </div>
       <div class="col">
         <div class="row">
-          <div class="col elevated-transaction">
+          <div class="col elevated-transactions">
             <div class="row"><div class="col"><h5>Vaste lasten hoger dan normaal</h5></div></div>
 
             <div class="row" *ngIf="elevatedRecurringTransactions?.length == 0">
@@ -113,58 +113,39 @@
 
             <ng-container
               *ngFor="let transaction of elevatedRecurringTransactions">
-              <div class="row">
-                <div class="col text-truncate">{{transaction.name}}</div>
-                <div class="col">
-                  
-                  <div class="row">
+              <div class="elevated-transaction">
+                <div class="row">
+                    <div class="col text-truncate">
+
+                      <div class="row">
+                        <div class="col">{{transaction.name}}</div>
+                      </div>
+                      <div class="row">
+                        <div class="col">{{transaction.category}}</div>
+                      </div>
+                      
+                    </div>
                     <div class="col">&euro;{{transaction.amount}}</div>
+                    <div class="col">
+                        <button type="button" class="btn btn-primary" (click)="openModal()">Besparen</button>
+                    </div>  
                   </div>
                   <div class="row">
-                    <div class="col">{{transaction.category}}</div>
+                    <div class="col">
+                      <hr />
+                    </div>
                   </div>
-                </div>
-                <div class="col">
-                    <button type="button" class="btn btn-primary" (click)="openModal()">Besparen</button>
-                </div>  
-              </div>
-              <div class="row">
-                <div class="col">
-                  <hr />
-                </div>
-              </div>
-            </ng-container>
-            
+              </div>  
+            </ng-container>    
           </div>
         </div>
         <div class="row">
-          <div class="col elevated-transaction">
+          <div class="col elevated-transactions">
             <div class="row"><div class="col"><h5>Overige uitgaven hoger dan normaal</h5></div></div>
           </div>
         </div>
       </div>
     </div>
-
-
-
-
-  <!-- <div *ngIf="bankAccount != null">
-    </div>
-    
-    <div class="row">
-      <div class="col-6">
-        <app-transaction-table></app-transaction-table>
-      </div>
-      <div class="col-6">
-        <div class="row">
-          <div class="col"></div>
-        </div>
-        <div class="row">
-            <div class="col"></div>
-          </div>
-      </div>
-    </div> -->
-
 </div>
 
 

@@ -15,6 +15,17 @@ export class TransactionService {
         private http: HttpClient
     ){}
 
+    getTransactionsBeforeDate(bankAccountId: number, date: Date, size: number = 10): Observable<Page<Transaction>> {
+        return this.http.get<Page<Transaction>>(this.baseUrl + '/transactions', {
+            params: {
+                bankAccountId: bankAccountId.toString(),
+                date: this.dateToString(date),
+                size: size.toString(),
+                sort: 'date,desc'
+            }
+        });
+    }
+
     getTransactions(bankAccountId: number, page: number = 0): Observable<Page<Transaction>> {
         return this.http.get<Page<Transaction>>(this.baseUrl + '/transactions', {
             params : {
@@ -25,4 +36,9 @@ export class TransactionService {
         });
     }
 
+    private dateToString(date: Date): string {
+        const day = ("0" + date.getDate()).slice(-2);
+        const month = ("0" + (date.getMonth() + 1)).slice(-2);
+        return `${day}/${month}/${date.getFullYear()}`;
+    }
 }

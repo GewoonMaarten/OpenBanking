@@ -78,7 +78,7 @@ export class HomeComponent implements OnInit {
 
       if(date) {
         let parts = date.split('/');
-        date = new Date(parts[2], parts[1] , 0);
+        date = new Date(parts[2], parts[1] , 1);
       } else {
         date = new Date();
       }

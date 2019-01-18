@@ -28,10 +28,15 @@ export class BankAccountService {
         const month = ("0" + (date.getMonth() + 1)).slice(-2);
         const dateString = `${day}/${month}/${date.getFullYear()}`;
 
-
+        const date2 = new Date(date.getTime());
+        date2.setDate(0);
+        const day2 = ("0" + date2.getDate()).slice(-2);
+        const month2 = ("0" + (date2.getMonth() + 1)).slice(-2);
+        const dateString2 = `${day2}/${month2}/${date2.getFullYear()}`;
+        
         var bankAccount: BankAccount = new BankAccount();
 
-        this.http.get(this.baseUrl + '/calculate/currentBalance?id=' + bankAccountId + "&date=" + dateString)
+        this.http.get(this.baseUrl + '/calculate/currentBalance?id=' + bankAccountId + "&date=" + dateString2)
             .subscribe(data => bankAccount.balancechange = <number> data);
 
         this.http.get(this.baseUrl + '/calculate/expectedExpenses?id=' + bankAccountId + "&date=" + dateString)

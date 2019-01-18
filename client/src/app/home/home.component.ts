@@ -6,6 +6,7 @@ import { BankAccountService } from "../service/bankAccount.service";
 import { OutlierService } from '../service/outlier.service';
 import { Transaction } from '../model/transaction.model';
 import { PhoneModalService } from '../service/phoneModal.service';
+import { IconService } from '../service/icon.service';
 
 @Component({
   selector: 'app-home',
@@ -56,7 +57,8 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private bankAccountService: BankAccountService,
     private outlierService: OutlierService,
-    private phoneModalService: PhoneModalService
+    private phoneModalService: PhoneModalService,
+    private iconService: IconService
   ) { }
 
   ngOnInit() {
@@ -107,7 +109,7 @@ export class HomeComponent implements OnInit {
         "overigeUitgaven",
         dateStart,
         dateEnd,
-        .5
+        1
       ).subscribe(data => {
         this.elevatedOtherTransactions = data.content;
       });
@@ -119,7 +121,7 @@ export class HomeComponent implements OnInit {
         "telecom",
         dateStart,
         dateEnd,
-        .5
+        .7
       ).subscribe(data => {
         this.elevatedRecurringTransactions = data.content;
       });
@@ -165,5 +167,9 @@ export class HomeComponent implements OnInit {
     const day = ("0" + date.getDate()).slice(-2);
     const month = ("0" + (date.getMonth() + 1)).slice(-2);
     return `${day}/${month}/${date.getFullYear()}`;
+  }
+
+  private getIcon(category: string): string {
+    return this.iconService.getIconByCategory(category);
   }
 }

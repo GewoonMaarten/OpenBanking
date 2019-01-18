@@ -1,7 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { ReactiveFormsModule, FormsModule  } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+
+import localeNL from "@angular/common/locales/nl";
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -37,9 +39,11 @@ import {
   faFutbol,
   faUndo
 } from "@fortawesome/free-solid-svg-icons";
+import { registerLocaleData } from '@angular/common';
 
 //import { faClock } from "@fortawesome/free-regular-svg-icons";
 
+registerLocaleData(localeNL);
 
 @NgModule({
   declarations: [
@@ -61,7 +65,7 @@ import {
     FontAwesomeModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [{provide: LOCALE_ID, useValue: 'nl'}],
   bootstrap: [AppComponent]
 })
 export class AppModule { 

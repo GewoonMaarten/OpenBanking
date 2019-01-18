@@ -43,8 +43,15 @@
           class="float-right" 
           [class.green]="transaction.amount > 0" 
           [class.red]="transaction.amount < 0"
-          >&euro;{{transaction.amount}}</span>
+          >&euro;{{transaction.amount | number:'1.2-2'}}</span>
       </div>
     </div>
   </div>
+
+  <div class="row">
+    <div class="col-6">
+      <button class="btn btn-secondary btn-block transacties-btn">Volledige rekening inzien</button>
+    </div>
+  </div>
+
 </div>

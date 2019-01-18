@@ -22,3 +22,88 @@ body, html {
 
     background-color: #d9d8d9;
 }
+
+.btn-primary {
+    background-color: #a22b5f;
+    border-color: #a22b5f;
+    color: white;
+    font-family: ubuntu-regular;
+}
+
+.btn-primary:not(:disabled):not(.disabled).active, 
+.btn-primary:not(:disabled):not(.disabled):active, 
+.show > .btn-primary.dropdown-toggle {
+    color: white;
+    background-color: #a22b5f;
+    border-color: #a22b5f;
+    font-family: ubuntu-regular;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
+    color: #fff;
+    background-color: #7e224a;
+    border-color: #7e224a; /*set the color you want here*/
+}
+
+.btn-primary.disabled, .btn-primary:disabled {
+    color: #fff;
+    background-color: #7e224a;
+    border-color: #7e224a;
+}
+
+.btn-secondary {
+    background-color: #3a425a;
+    border-color: #3a425a;
+    color: white;
+    font-family: ubuntu-regular;
+}
+
+.btn-secondary:not(:disabled):not(.disabled).active, 
+.btn-secondary:not(:disabled):not(.disabled):active, 
+.show > .btn-secondary.dropdown-toggle {
+    color: white;
+    background-color: #3a425a;
+    border-color: #3a425a;
+    font-family: ubuntu-regular;
+}
+
+.btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active, .btn-secondary.active, .open>.dropdown-toggle.btn-secondary {
+    color: #fff;
+    background-color: #2d3347;
+    border-color: #2d3347; /*set the color you want here*/
+}
+
+.btn-success {
+    background-color: white;
+    border-color: white;
+    color: black;
+    font-family: ubuntu-regular;
+}
+
+.btn-success:not(:disabled):not(.disabled).active, 
+.btn-success:not(:disabled):not(.disabled):active, 
+.show > .btn-success.dropdown-toggle {
+    color: black;
+    background-color: white;
+    border-color: white;
+    font-family: ubuntu-regular;
+}
+
+.btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active, .open>.dropdown-toggle.btn-success {
+    color: black;
+    background-color: #dfdfdf;
+    border-color: #dfdfdf; /*set the color you want here*/
+}
+
+.btn-primary:not(:disabled):not(.disabled).active:focus, .btn-primary:not(:disabled):not(.disabled):active:focus, .show > .btn-primary.dropdown-toggle:focus,
+.btn-secondary:not(:disabled):not(.disabled).active:focus, .btn-secondary:not(:disabled):not(.disabled):active:focus, .show > .btn-secondary.dropdown-toggle:focus,
+.btn-success:not(:disabled):not(.disabled).active:focus, .btn-success:not(:disabled):not(.disabled):active:focus, .show > .btn-success.dropdown-toggle:focus {
+ 
+    box-shadow: 0 0 0 .2rem rgba(255, 255, 255, 0.5);
+}
+
+.btn-primary.focus, .btn-primary:focus,
+.btn-secondary.focus, .btn-secondary:focus,
+.btn-success.focus, .btn-success:focus {
+    box-shadow: 0 0 0 .2rem rgba(255, 255, 255, 0.5);
+}

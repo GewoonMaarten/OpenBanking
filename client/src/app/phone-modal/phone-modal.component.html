@@ -14,16 +14,18 @@
           [class.highlight]="selectedId == subscription.id">
           <div class="col">
             <div class="row">
-              <div class="col">{{subscription.provider}}</div>
+              <div class="col subscription-title">{{subscription.provider}} </div>
+              <div class="col">
+                <span class="float-right price"> &euro;{{subscription.price}} per maand </span>
+              </div>
             </div>
-            <div class="row">
+            <div class="row info-bar">
               <div class="col">minuten: {{subscription.minutes}}</div>
               <div class="col">sms: {{subscription.sms}}</div>
-              <div class="col">internet: {{subscription.internetGB}}GB</div>
-            </div>
-            <div class="row">
               <div class="col">
-                &euro;{{subscription.price}} per maand
+                <span class="float-right">
+                  internet: {{subscription.internetGB}}GB
+                </span>
               </div>
             </div>
           </div>          
@@ -88,14 +90,14 @@
         <div class="row">
           <div class="col">
             <div class="btn-group float-right" role="group">
-              <button type="button" class="btn btn-primary" (click)="close()">
-                Close
+              <button type="button" class="btn btn-secondary" (click)="close()">
+                Sluiten
               </button>
               <button 
                 type="submit" 
                 class="btn btn-primary" 
                 [disabled]="!phonesubscriptionform.valid">
-                Next
+                Verder
               </button>
             </div>
           </div>

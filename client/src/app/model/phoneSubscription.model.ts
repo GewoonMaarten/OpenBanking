@@ -10,6 +10,6 @@ export class PhoneSubscription {
     connectionCost: number;
     discount: boolean;
     renwableAfter: number;
-    
+    duration: number;
     description: string;
 }

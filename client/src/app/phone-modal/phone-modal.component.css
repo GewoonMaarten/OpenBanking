@@ -19,7 +19,7 @@
     margin: auto;
     z-index: 1001;
 
-    height: 500px;
+    height: 550px;
     width: 460px;
     background-color: #f3f2f3;
 }
@@ -32,17 +32,32 @@
     font-size: 18px;
     font-family: ubuntu-bold;
 }
+
+.subscription-title {
+    font-family: ubuntu-bold;
+    font-size: 17px;
+}
+
 .subscription {
     cursor: pointer;
     margin: 30px 5px;
     color: white;
     background-color: #3a425a;
+    padding: 15px 0;
 }
 
 .subscription:hover {
     background-color: #a22b5f;
 }
 
+.info-bar {
+    color: #b2b6bb;
+}
+
 .highlight {
     background-color: #a22b5f;
+}
+
+.price {
+    font-family: ubuntu-bold;
 }

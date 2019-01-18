@@ -12,7 +12,7 @@
         Bankrekening:
 
         <div class="btn-group">
-            <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-success btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               {{bankAccounts[0].product}}
             </button>
             <div class="dropdown-menu">
@@ -34,7 +34,7 @@
               <span >Periode: </span>
               <div class="btn-group">
                 <div class="btn-group">
-                  <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <button class="btn btn-success btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{month}}
                   </button>
                   <div class="dropdown-menu">
@@ -42,7 +42,7 @@
                   </div>
                 </div>
                 <div class="btn-group">
-                  <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <button class="btn btn-success btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{year}}
                   </button>
                   <div class="dropdown-menu">
@@ -63,7 +63,7 @@
         <div class="row">
           <div class="col-5" id="real-time-title">
               <fa-icon icon="clock"></fa-icon>
-              <span>Real-time</span>
+              <span>Real-time vanaf deze maand</span>
           </div>
           <div class="col">
             <div class="row"><div class="col">Saldo: <sup><fa-icon icon="info-circle"></fa-icon></sup></div></div>
@@ -71,7 +71,7 @@
           </div>
 
           <div class="col">
-            <div class="row"><div class="col">Balans: <sup><fa-icon icon="info-circle"></fa-icon></sup></div></div>
+            <div class="row"><div class="col">Opsomming +-: <sup><fa-icon icon="info-circle"></fa-icon></sup></div></div>
             <div class="row"><div class="col number">&euro;{{bankAccount.balancechange | number:'1.2-2'}}</div></div>     
           </div>
         </div>
@@ -89,7 +89,7 @@
           </div>
 
           <div class="col">
-            <div class="row"><div class="col">Balans: <sup><fa-icon icon="info-circle"></fa-icon></sup></div></div>
+            <div class="row"><div class="col">Opsomming +-: <sup><fa-icon icon="info-circle"></fa-icon></sup></div></div>
             <div class="row"><div class="col number">
               &euro;<span *ngIf="bankAccount.predictedBalanceChange >= 0">+</span>{{bankAccount.predictedBalanceChange | number:'1.2-2'}}
             </div></div>     
@@ -121,11 +121,13 @@
                         <div class="col">{{transaction.name}}</div>
                       </div>
                       <div class="row">
-                        <div class="col">{{transaction.category}}</div>
+                        <div class="col">
+                          <fa-icon [icon]="getIcon(transaction.category)"></fa-icon>
+                          {{transaction.category}}
+                        </div>
                       </div>
-                      
                     </div>
-                    <div class="col">&euro;{{transaction.amount}}</div>
+                    <div class="col">&euro;{{transaction.amount | number:'1.2-2'}}</div>
                     <div class="col">
                         <button type="button" class="btn btn-primary" (click)="openModal()">Besparen</button>
                     </div>  
@@ -136,7 +138,7 @@
         </div>
         <div class="row">
           <div class="col elevated-transactions">
-            <div class="row"><div class="col"><h5>Overige uitgaven hoger dan normaal</h5></div></div>
+            <div class="row"><div class="col"><h5>Opvallende uitschieters deze maand</h5></div></div>
 
 
             <div class="row" *ngIf="elevatedOtherTransactions?.length == 0">
@@ -153,12 +155,19 @@
                           <div class="col">{{transaction.name}}</div>
                         </div>
                         <div class="row">
-                          <div class="col">{{transaction.category}}</div>
+                          <div class="col" *ngIf="transaction.category !== 'overigeUitgaven'">
+                            <fa-icon [icon]="getIcon('overigeUitgaven')"></fa-icon>
+                            {{transaction.category}}
+                          </div>
+                          <div class="col" *ngIf="transaction.category === 'overigeUitgaven'">
+                            <fa-icon [icon]="getIcon(transaction.category)"></fa-icon>
+                            overige
+                          </div>
                         </div>
                         
                       </div>
                       <div class="col"><span class="float-right">
-                        &euro;{{transaction.amount}}
+                        &euro;{{transaction.amount | number:'1.2-2'}}
                       </span></div>
                     </div>
                 </div>  
@@ -168,8 +177,5 @@
       </div>
     </div>
 </div>
-
-
-
 
 <app-phone-modal></app-phone-modal>

@@ -29,6 +29,10 @@
     font-family: ubuntu-bold;
 }
 
+.transacties-btn {
+    margin-top: 20px;
+}
+
 /* .transaction:nth-child(odd) {
     background-color: white;
 } */

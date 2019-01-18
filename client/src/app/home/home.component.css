@@ -7,39 +7,9 @@
     font-size: 12px;
 }
 
-.btn-primary {
-    background-color: white;
-    border-color: white;
-    color: black;
-    font-family: ubuntu-regular;
-}
-
-.btn-primary:not(:disabled):not(.disabled).active, 
-.btn-primary:not(:disabled):not(.disabled):active, 
-.show > .btn-primary.dropdown-toggle {
-    color: black;
-    background-color: white;
-    border-color: white;
-    font-family: ubuntu-regular;
-}
-
-.btn-primary:not(:disabled):not(.disabled).active:focus, .btn-primary:not(:disabled):not(.disabled):active:focus, .show > .btn-primary.dropdown-toggle:focus {
-
-    box-shadow: 0 0 0 .2rem rgba(0, 0, 0,.5);
-
-}
-
-.btn-primary.focus, .btn-primary:focus {
-
-    box-shadow: 0 0 0 .2rem rgba(0, 0, 0, 0.5);
-
-}
-
 .content .container {
     margin: 0;
 }
-
-
 
 #real-time-title {
     color: #888b8f;

@@ -46,7 +46,7 @@
         <div class="col">Internet(4G)</div>
         <div class="col align-end">
           <span *ngIf="subscription.internetGB == -1">Onbeperkt</span>
-          <span *ngIf="subscription.internetGB >= 0 ">{{subscription.internetGB}}</span>
+          <span *ngIf="subscription.internetGB >= 0 ">{{subscription.internetGB}}GB</span>
         </div>
       </div>
 
@@ -57,9 +57,9 @@
       <div class="row">
         <div class="col">Contractsduur</div>
         <div class="col align-end">
-          {{subscription.renewableAfter}}
-          <span *ngIf="subscription.renewableAfter > 1">maanden</span>
-          <span *ngIf="subscription.renewableAfter == 1">maand</span>
+          {{subscription.duration}}
+          <span *ngIf="subscription.duration > 1">maanden</span>
+          <span *ngIf="subscription.duration == 1">maand</span>
         </div>
       </div>
 

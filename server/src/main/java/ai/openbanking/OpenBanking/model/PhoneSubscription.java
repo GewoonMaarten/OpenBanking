@@ -23,5 +23,6 @@ public class PhoneSubscription {
     private Integer connectionCost;
     @Column(name = "renewable_after")
     private Integer renewableAfter;
+    private Integer duration;
     private String description;
 }
